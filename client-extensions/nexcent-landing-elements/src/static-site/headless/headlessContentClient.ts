@@ -34,8 +34,20 @@ function findField(
     names: string[]
 ): HeadlessContentField | undefined {
     const normalizedNames = names.map(normalizeIdentifier);
+    const flatFields = flattenFields(content.contentFields);
 
-    return flattenFields(content.contentFields).find((field) =>
+    // Priority 1: match by fieldReference
+    const byRef = flatFields.find((field) =>
+        field.fieldReference &&
+        normalizedNames.includes(normalizeIdentifier(field.fieldReference))
+    );
+
+    if (byRef) {
+        return byRef;
+    }
+
+    // Priority 2: fallback to name
+    return flatFields.find((field) =>
         normalizedNames.includes(normalizeIdentifier(field.name))
     );
 }
