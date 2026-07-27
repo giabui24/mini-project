@@ -23,14 +23,12 @@ export type ImageValue = {
 
 export type ContentFieldValue = {
     data?: unknown;
-    description?: string;
     document?: ImageValue;
     image?: ImageValue;
 };
 
 export type ContentField = {
     contentFieldValue?: ContentFieldValue;
-    fieldReference?: string;
     name: string;
     nestedContentFields?: ContentField[];
 };
@@ -38,7 +36,6 @@ export type ContentField = {
 export type StructuredContent = {
     contentFields: ContentField[];
     contentStructureId: number;
-    coverImage?: ContentFieldValue;
     datePublished?: string;
     externalReferenceCode: string;
     friendlyUrlPath?: string;

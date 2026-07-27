@@ -1,8 +1,0 @@
-{
-    "cssPath": "index.css",
-    "fragmentEntryKey": "nexcent_article_detail",
-    "htmlPath": "index.html",
-    "jsPath": "index.js",
-    "name": "Nexcent Article Detail",
-    "type": "component"
-}

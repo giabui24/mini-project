@@ -1,4 +1,4 @@
-import {useEffect, useState, useRef} from 'react';
+import {useEffect, useState} from 'react';
 
 import {readLocale, readStringSetting} from '../runtime/fragmentSettings';
 import {
@@ -48,24 +48,17 @@ export function useStructuredContentCollection<T>({
     maxItems,
     structureIdentifier,
 }: UseStructuredContentCollectionOptions<T>): HeadlessCollectionState<T> {
-    const fallbackRef = useRef(fallback);
-    const mapContentRef = useRef(mapContent);
-
-    fallbackRef.current = fallback;
-    mapContentRef.current = mapContent;
-
     const [state, setState] = useState<HeadlessCollectionState<T>>(() => ({
-        items: host ? [] : fallback.slice(0, maxItems),
+        items: fallback.slice(0, maxItems),
         status: host ? 'loading' : 'preview',
     }));
 
     useEffect(() => {
         if (!host) {
             setState({
-                items: fallbackRef.current.slice(0, maxItems),
+                items: fallback.slice(0, maxItems),
                 status: 'preview',
             });
-
             return;
         }
 
@@ -80,29 +73,21 @@ export function useStructuredContentCollection<T>({
             );
 
             applyHostState(host, 'fallback', error);
-
             setState({
                 error,
-                items: fallbackRef.current.slice(0, maxItems),
+                items: fallback.slice(0, maxItems),
                 status: 'fallback',
             });
-
             return;
         }
 
         let active = true;
 
         applyHostState(host, 'loading');
-
-        setState({
-            error: undefined,
-            items: [],
-            status: 'loading',
-        });
+        setState((current) => ({...current, error: undefined, status: 'loading'}));
 
         loadStructuredContents({
             locale,
-            pageSize: maxItems,
             siteId,
             structureIdentifier,
         })
@@ -111,9 +96,9 @@ export function useStructuredContentCollection<T>({
                     return;
                 }
 
-                const items = contents.map((content, index) =>
-                    mapContentRef.current(content, index)
-                );
+                const items = contents
+                    .slice(0, maxItems)
+                    .map((content, index) => mapContent(content, index));
 
                 if (items.length === 0) {
                     throw new Error(
@@ -132,15 +117,12 @@ export function useStructuredContentCollection<T>({
                 const error =
                     cause instanceof Error
                         ? cause
-                        : new Error(
-                              'Unable to load Headless Delivery content.'
-                          );
+                        : new Error('Unable to load Headless Delivery content.');
 
                 applyHostState(host, 'fallback', error);
-
                 setState({
                     error,
-                    items: fallbackRef.current.slice(0, maxItems),
+                    items: fallback.slice(0, maxItems),
                     status: 'fallback',
                 });
             });
@@ -148,7 +130,7 @@ export function useStructuredContentCollection<T>({
         return () => {
             active = false;
         };
-    }, [host, maxItems, structureIdentifier]);
+    }, [fallback, host, mapContent, maxItems, structureIdentifier]);
 
     return state;
 }
