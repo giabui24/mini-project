@@ -1,3 +1,5 @@
+@use '../../styles/mixins' as media;
+
 .nxc-services {
     background: var(--nxc-color-white);
     color: var(--nxc-color-text);
@@ -103,10 +105,10 @@
     to { opacity: 1; }
 }
 
-@media (max-width: 56rem) {
+@include media.respond-down(tablet-wide) {
     .nxc-services__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-@media (max-width: 38rem) {
+@include media.respond-down(mobile-wide) {
     .nxc-services__grid { grid-template-columns: 1fr; }
 }

@@ -1,5 +1,14 @@
 import {spawn} from 'node:child_process';
-import {access, cp, mkdir, mkdtemp, readdir, readFile, rm} from 'node:fs/promises';
+import {
+    access,
+    cp,
+    mkdir,
+    mkdtemp,
+    readdir,
+    readFile,
+    rm,
+    writeFile,
+} from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -9,6 +18,10 @@ const fragmentSourceDirectory = path.join(projectDirectory, 'fragments');
 const outputDirectory = path.join(projectDirectory, 'build', 'fragments');
 const outputPath = path.join(outputDirectory, 'collections-nexcent-components.zip');
 const collectionKey = 'nexcent-components';
+const deployDescriptor = {
+    companyWebId: process.env.NEXCENT_FRAGMENTS_COMPANY_WEB_ID || 'liferay.com',
+    groupKey: process.env.NEXCENT_FRAGMENTS_GROUP_KEY || 'Guest',
+};
 
 function run(command, args, options = {}) {
     return new Promise((resolve, reject) => {
@@ -85,6 +98,10 @@ const stagedFragmentsDirectory = path.join(stagedCollectionDirectory, 'fragments
 try {
     await mkdir(stagedFragmentsDirectory, {recursive: true});
     await cp(collectionPath, path.join(stagedCollectionDirectory, 'collection.json'));
+    await writeFile(
+        path.join(stagingDirectory, 'liferay-deploy-fragments.json'),
+        `${JSON.stringify(deployDescriptor, null, 2)}\n`
+    );
 
     for (const entry of fragmentEntries) {
         await cp(
@@ -102,6 +119,9 @@ try {
         '-C',
         stagingDirectory,
         collectionKey,
+        '-C',
+        stagingDirectory,
+        'liferay-deploy-fragments.json',
     ]);
 }
 finally {

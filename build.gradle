@@ -1,80 +1,16 @@
 // Check GETTING_STARTED.md for information regarding usage.
 
 def fragmentProjectDir = file("client-extensions/nexcent-landing-elements")
-def fragmentSourceDir = file("${fragmentProjectDir}/fragments")
-def fragmentCollectionKey = "nexcent-components"
 def liferayHomeDir = file(findProperty("liferay.workspace.home.dir") ?: "bundles")
-def localGradleProperties = new Properties()
-def localGradlePropertiesFile = file("gradle-local.properties")
-
-if (localGradlePropertiesFile.exists()) {
-	localGradlePropertiesFile.withInputStream {
-		localGradleProperties.load(it)
-	}
-}
-
-def fragmentProperty = { String name, String defaultValue ->
-	gradle.startParameter.projectProperties[name] ?:
-		localGradleProperties.getProperty(name) ?:
-		findProperty(name) ?:
-		defaultValue
-}
-
-def fragmentCompanyWebId =
-	fragmentProperty("nexcent.fragments.company.web.id", "liferay.com")
-def fragmentGroupKey =
-	fragmentProperty("nexcent.fragments.group.key", "Guest")
-
-tasks.register("generateNexcentFragmentDeployDescriptor") {
-	def descriptorFile = layout.buildDirectory.file(
-		"generated/nexcent-fragments/liferay-deploy-fragments.json")
-
-	inputs.property("companyWebId", fragmentCompanyWebId)
-	inputs.property("groupKey", fragmentGroupKey)
-	outputs.file(descriptorFile)
-
-	doLast {
-		def descriptor = [
-			companyWebId: fragmentCompanyWebId,
-			groupKey: fragmentGroupKey
-		]
-		def outputFile = descriptorFile.get().asFile
-
-		outputFile.parentFile.mkdirs()
-		outputFile.text = groovy.json.JsonOutput.prettyPrint(
-			groovy.json.JsonOutput.toJson(descriptor)) + System.lineSeparator()
-	}
-}
-
-tasks.register("packageNexcentFragments", Zip) {
-	dependsOn("generateNexcentFragmentDeployDescriptor")
-
-	archiveFileName = "collections-nexcent-components.zip"
-	destinationDirectory = fragmentProjectDir.toPath()
-		.resolve("build/fragments")
-		.toFile()
-
-	from(fragmentSourceDir) {
-		include("collection.json")
-		into(fragmentCollectionKey)
-	}
-
-	from(fragmentSourceDir) {
-		exclude("collection.json")
-		into("${fragmentCollectionKey}/fragments")
-	}
-
-	from(layout.buildDirectory.dir("generated/nexcent-fragments")) {
-		include("liferay-deploy-fragments.json")
-	}
-}
+def fragmentPackageFile = fragmentProjectDir.toPath()
+	.resolve("build/fragments/collections-nexcent-components.zip")
+	.toFile()
 
 tasks.register("deployNexcentFragments", Copy) {
-	dependsOn("packageNexcentFragments")
+	dependsOn(
+		":client-extensions:nexcent-landing-elements:packageRunBuild")
 
-	from(tasks.named("packageNexcentFragments", Zip).flatMap {
-		it.archiveFile
-	})
+	from(fragmentPackageFile)
 	into(new File(liferayHomeDir, "deploy"))
 }
 

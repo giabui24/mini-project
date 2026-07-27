@@ -1,3 +1,5 @@
+@use '../../styles/mixins' as media;
+
 .nxc-hero {
     background: var(--nxc-color-surface);
     color: var(--nxc-color-text);
@@ -88,7 +90,7 @@
     to { background-position: -100% 0; }
 }
 
-@media (max-width: 48rem) {
+@include media.mobile-only {
     .nxc-hero__container {
         grid-template-columns: 1fr;
         min-height: auto;
@@ -99,6 +101,6 @@
     .nxc-hero__media { grid-row: 2; }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@include media.reduced-motion {
     .nxc-hero__skeleton { animation: none; }
 }

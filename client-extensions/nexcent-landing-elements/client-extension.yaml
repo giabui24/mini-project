@@ -38,6 +38,19 @@ nexcent-content-importer:
         - index.js
     useESM: true
 
+nexcent-contact-form:
+    cssURLs:
+        - style.css
+    friendlyURLMapping: nexcent-contact-form
+    htmlElementName: nexcent-contact-form
+    instanceable: true
+    name: Nexcent Contact Form
+    portletCategoryName: category.client-extensions
+    type: customElement
+    urls:
+        - index.js
+    useESM: true
+
 nexcent-hero:
     cssURLs:
         - style.css

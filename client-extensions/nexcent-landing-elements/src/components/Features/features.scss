@@ -1,3 +1,5 @@
+@use '../../styles/mixins' as media;
+
 .nxc-features {
     color: var(--nxc-color-text);
     font-family: var(--nxc-font-family, Inter, system-ui, sans-serif);
@@ -75,7 +77,7 @@
     to { opacity: 1; }
 }
 
-@media (max-width: 48rem) {
+@include media.mobile-only {
     .nxc-feature__container { grid-template-columns: 1fr; }
 
     .nxc-feature--image-right .nxc-feature__media,
