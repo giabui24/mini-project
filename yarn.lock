@@ -305,7 +305,7 @@
   dependencies:
     "@tybys/wasm-util" "^0.10.3"
 
-"@nexcent/landing-elements@file:D:\\Life Ray study\\mini-project\\client-extensions\\nexcent-landing-elements":
+"@nexcent/landing-elements@file:client-extensions/nexcent-landing-elements":
   version "0.2.0"
   resolved "file:client-extensions/nexcent-landing-elements"
   dependencies:
@@ -313,7 +313,7 @@
     react "18.2.0"
     react-dom "18.2.0"
 
-"@nexcent/theme@file:D:\\Life Ray study\\mini-project\\client-extensions\\nexcent-theme":
+"@nexcent/theme@file:client-extensions/nexcent-theme":
   version "0.2.0"
   resolved "file:client-extensions/nexcent-theme"
 
