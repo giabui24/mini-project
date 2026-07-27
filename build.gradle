@@ -6,6 +6,14 @@ def fragmentPackageFile = fragmentProjectDir.toPath()
 	.resolve("build/fragments/collections-nexcent-components.zip")
 	.toFile()
 
+gradle.projectsEvaluated {
+	project(":client-extensions:nexcent-theme")
+		.tasks.named("assembleClientExtension") {
+			dependsOn(
+				":client-extensions:nexcent-landing-elements:packageRunBuild")
+		}
+}
+
 tasks.register("deployNexcentFragments", Copy) {
 	dependsOn(
 		":client-extensions:nexcent-landing-elements:packageRunBuild")

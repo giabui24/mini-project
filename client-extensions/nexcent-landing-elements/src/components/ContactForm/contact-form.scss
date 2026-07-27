@@ -64,6 +64,7 @@
     &__field {
         display: grid;
         gap: 8px;
+        min-width: 0;
 
         label {
             color: var(--nxc-color-heading, #4d4d4d);

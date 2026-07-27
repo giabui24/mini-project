@@ -1,7 +1,6 @@
 import {
     type ChangeEvent,
     type FocusEvent,
-    type FormEvent,
     useId,
     useState,
 } from 'react';
@@ -182,16 +181,15 @@ export function ContactForm({
         event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
         const field = event.currentTarget.name as ContactField;
+        const value = event.currentTarget.value;
 
         setErrors((current) => ({
             ...current,
-            [field]: validateContactField(field, event.currentTarget.value),
+            [field]: validateContactField(field, value),
         }));
     };
 
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
+    const handleSubmit = async () => {
         const nextErrors = validateContactForm(values);
 
         setErrors(nextErrors);
@@ -276,10 +274,10 @@ export function ContactForm({
                     <p>{description}</p>
                     </div>
 
-                    <form
+                    <div
+                        aria-label={title}
                         className="nxc-contact__form"
-                        noValidate
-                        onSubmit={handleSubmit}
+                        role="form"
                     >
                         <div className="nxc-contact__row">
                             <div className="nxc-contact__field">
@@ -371,7 +369,8 @@ export function ContactForm({
                             <button
                                 className="nxc-button nxc-button--primary nxc-contact__submit"
                                 disabled={status === 'submitting'}
-                                type="submit"
+                                onClick={handleSubmit}
+                                type="button"
                             >
                                 {status === 'submitting'
                                     ? submittingText
@@ -387,7 +386,7 @@ export function ContactForm({
                                 {status === 'error' ? errorMessage : null}
                             </p>
                         </div>
-                    </form>
+                    </div>
             </div>
         </section>
     );
