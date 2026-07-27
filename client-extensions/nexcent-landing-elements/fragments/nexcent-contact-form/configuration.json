@@ -1,0 +1,70 @@
+{
+    "fieldSets": [
+        {
+            "fields": [
+                {
+                    "dataType": "string",
+                    "defaultValue": "Contact us",
+                    "label": "Title",
+                    "name": "title",
+                    "type": "text"
+                },
+                {
+                    "dataType": "string",
+                    "defaultValue": "Tell us what you are working on and our team will get back to you.",
+                    "label": "Description",
+                    "name": "description",
+                    "type": "text"
+                },
+                {
+                    "dataType": "string",
+                    "defaultValue": "/o/c/nxccontactrequests",
+                    "label": "API path",
+                    "name": "apiPath",
+                    "type": "text",
+                    "typeOptions": {
+                        "validation": {
+                            "errorMessage": "Enter a same-origin API path beginning with /.",
+                            "regexp": "^/.*",
+                            "type": "pattern"
+                        }
+                    }
+                }
+            ],
+            "label": "Contact form"
+        },
+        {
+            "fields": [
+                {
+                    "dataType": "string",
+                    "defaultValue": "Send message",
+                    "label": "Submit label",
+                    "name": "submitLabel",
+                    "type": "text"
+                },
+                {
+                    "dataType": "string",
+                    "defaultValue": "Sending…",
+                    "label": "Submitting text",
+                    "name": "submittingText",
+                    "type": "text"
+                },
+                {
+                    "dataType": "string",
+                    "defaultValue": "Thanks! Your message has been sent.",
+                    "label": "Success message",
+                    "name": "successMessage",
+                    "type": "text"
+                },
+                {
+                    "dataType": "string",
+                    "defaultValue": "We could not send your message. Please try again.",
+                    "label": "Error message",
+                    "name": "errorMessage",
+                    "type": "text"
+                }
+            ],
+            "label": "Messages"
+        }
+    ]
+}

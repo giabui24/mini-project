@@ -1,0 +1,85 @@
+@use 'sass:map';
+
+// Min-width thresholds aligned with the audited Figma export.
+// Use respond-down(tablet) for mobile layouts and respond-up(desktop)
+// for the full desktop composition.
+$breakpoints: (
+    mobile: 30rem,        // 480px
+    mobile-wide: 36rem,   // 576px
+    tablet: 48rem,        // 768px
+    tablet-wide: 62rem,   // 992px
+    desktop: 64rem,       // 1024px
+    desktop-wide: 90rem,  // 1440px
+);
+
+$breakpoint-aliases: (
+    small: mobile-wide,
+    compact: mobile-wide,
+    medium: tablet,
+    large: tablet-wide,
+);
+
+@function breakpoint($name) {
+    $resolved-name: map.get($breakpoint-aliases, $name);
+
+    @if $resolved-name == null {
+        $resolved-name: $name;
+    }
+
+    $value: map.get($breakpoints, $resolved-name);
+
+    @if $value == null {
+        @error "Unknown breakpoint `#{$name}`. Use one of: #{map.keys($breakpoints)}.";
+    }
+
+    @return $value;
+}
+
+@mixin respond-down($breakpoint) {
+    $value: breakpoint($breakpoint);
+
+    @media (max-width: calc(#{$value} - 0.02px)) {
+        @content;
+    }
+}
+
+@mixin respond-up($breakpoint) {
+    $value: breakpoint($breakpoint);
+
+    @media (min-width: $value) {
+        @content;
+    }
+}
+
+@mixin respond-between($minimum, $maximum) {
+    $min-value: breakpoint($minimum);
+    $max-value: breakpoint($maximum);
+
+    @media (min-width: $min-value) and (max-width: calc(#{$max-value} - 0.02px)) {
+        @content;
+    }
+}
+
+@mixin mobile-only {
+    @include respond-down(tablet) {
+        @content;
+    }
+}
+
+@mixin tablet-only {
+    @include respond-between(tablet, desktop) {
+        @content;
+    }
+}
+
+@mixin desktop-up {
+    @include respond-up(desktop) {
+        @content;
+    }
+}
+
+@mixin reduced-motion {
+    @media (prefers-reduced-motion: reduce) {
+        @content;
+    }
+}

@@ -1,3 +1,5 @@
+@use '../../styles/mixins' as media;
+
 .nxc-importer {
     background: var(--nxc-color-white);
     border: 1px solid rgb(171 190 209 / 55%);
@@ -226,7 +228,7 @@
     text-transform: uppercase;
 }
 
-@media (max-width: 48rem) {
+@include media.mobile-only {
     .nxc-importer__inputs {
         grid-template-columns: 1fr;
     }

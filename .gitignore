@@ -8,6 +8,7 @@
 **/build
 **/build_gradle
 **/dist
+**/storybook-static
 **/node_modules
 **/node_modules_cache
 **/test-coverage

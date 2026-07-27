@@ -5,9 +5,10 @@ import {App} from './App';
 import {Features} from './components/Features/Features';
 import {Hero} from './components/Hero/Hero';
 import {ContentImporter} from './components/Importer/ContentImporter';
+import {ContactForm} from './components/ContactForm/ContactForm';
 import {Services} from './components/Services/Services';
 import {registerStaticElements} from './static-site/registerStaticElements';
-import './styles.scss';
+import './styles/main.scss';
 
 type ElementRenderer = (element: HTMLElement) => ReactNode;
 
@@ -41,6 +42,9 @@ function registerReactElement(name: string, renderer: ElementRenderer) {
 
 registerReactElement('nexcent-lab-status', () => <App />);
 registerReactElement('nexcent-content-importer', () => <ContentImporter />);
+registerReactElement('nexcent-contact-form', (element) => (
+    <ContactForm host={element} />
+));
 
 registerReactElement('nexcent-hero', (element) => (
     <Hero
