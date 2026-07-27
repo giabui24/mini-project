@@ -1,6 +1,8 @@
 assemble:
     - from: assets
       into: static
+    - from: ../nexcent-landing-elements/build/style.css
+      into: static
 
 nexcent-theme-css:
     clayURL: css/clay.css
