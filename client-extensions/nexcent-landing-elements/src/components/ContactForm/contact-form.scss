@@ -1,5 +1,3 @@
-@use '../../styles/mixins' as media;
-
 .nxc-contact {
     background: var(--nxc-color-surface, #f5f7fa);
     color: var(--nxc-color-text);
@@ -213,9 +211,65 @@
             color: #b42318;
         }
     }
+
+    .nxc-button {
+        align-items: center;
+        border: 1px solid transparent;
+        border-radius: var(--nxc-radius-sm, 4px);
+        cursor: pointer;
+        display: inline-flex;
+        font-size: var(--nxc-body-size, 14px);
+        font-weight: 500;
+        justify-content: center;
+        line-height: 1.5;
+        min-height: 41px;
+        padding: 10px 20px;
+        transition:
+            background-color var(--nxc-transition-reference, 300ms ease),
+            border-color var(--nxc-transition-reference, 300ms ease),
+            box-shadow var(--nxc-transition-fast, 160ms ease),
+            color var(--nxc-transition-reference, 300ms ease),
+            transform var(--nxc-transition-fast, 160ms ease);
+
+        &:focus-visible {
+            box-shadow: var(
+                --nxc-focus-ring,
+                0 0 0 4px rgb(76 175 79 / 25%)
+            );
+            outline: 2px solid
+                var(--nxc-color-primary-active, #237d31);
+            outline-offset: 2px;
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+            opacity: 0.55;
+            pointer-events: none;
+            transform: none;
+        }
+    }
+
+    .nxc-button--primary {
+        background: var(--nxc-color-primary, #4caf4f);
+        color: var(--nxc-color-white, #fff);
+
+        &:hover {
+            background: var(--nxc-color-white, #fff);
+            border-color: var(--nxc-color-primary, #4caf4f);
+            color: var(--nxc-color-primary, #4caf4f);
+            transform: translateY(-2px);
+        }
+
+        &:active {
+            background: var(--nxc-color-primary-active, #237d31);
+            border-color: var(--nxc-color-primary-active, #237d31);
+            color: var(--nxc-color-white, #fff);
+            transform: translateY(0);
+        }
+    }
 }
 
-@include media.mobile-only {
+@media (max-width: 767.98px) {
     .nxc-contact {
         &__container,
         &__row {

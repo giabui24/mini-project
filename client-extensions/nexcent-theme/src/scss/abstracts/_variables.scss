@@ -1,0 +1,57 @@
+:root {
+    --nxc-color-primary: var(--nxc-style-primary, #4caf4f);
+    --nxc-color-primary-hover: var(--nxc-style-primary-hover, #388e3b);
+    --nxc-color-primary-active: var(--nxc-style-primary-active, #237d31);
+    --nxc-color-primary-dark: var(--nxc-color-primary-active);
+    --nxc-color-secondary: var(--nxc-style-secondary, #263238);
+    --nxc-color-heading: var(--nxc-style-heading, #4d4d4d);
+    --nxc-color-text: var(--nxc-style-text, #717171);
+    --nxc-color-muted: var(--nxc-style-muted, #89939e);
+    --nxc-color-navigation: var(--nxc-style-navigation, #18191f);
+    --nxc-color-border: var(--nxc-style-border, #abbed1);
+    --nxc-color-surface: var(--nxc-style-surface, #f5f7fa);
+    --nxc-color-accent-surface: var(--nxc-style-accent-surface, #e8f5e9);
+    --nxc-color-footer-input: var(--nxc-style-footer-input, #4d4d4d);
+    --nxc-color-footer-placeholder: var(
+        --nxc-style-footer-placeholder,
+        #d9dbe1
+    );
+    --nxc-color-white: var(--nxc-style-white, #fff);
+    --nxc-font-family: var(
+        --nxc-style-font-family,
+        "Inter",
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif
+    );
+    --nxc-body-size: var(--nxc-style-body-size, 0.875rem);
+    --nxc-heading-weight: var(--nxc-style-heading-weight, 600);
+    --nxc-container-width: var(--nxc-style-container-width, 73.875rem);
+    --nxc-wide-container-width: var(--nxc-style-wide-container-width, 83.125rem);
+    --nxc-section-space: var(--nxc-style-section-space, 3rem);
+    --nxc-page-gutter: var(--nxc-style-page-gutter, 0.9375rem);
+    --nxc-header-height: var(--nxc-style-header-height, 4.1875rem);
+    --nxc-radius-sm: var(--nxc-style-radius-sm, 0.25rem);
+    --nxc-radius-md: var(--nxc-style-radius-md, 0.5rem);
+    --nxc-radius-pill: 999px;
+    --nxc-shadow-card: var(
+        --nxc-style-shadow-card,
+        0 0.125rem 0.25rem rgb(171 190 209 / 20%)
+    );
+    --nxc-shadow-raised: var(
+        --nxc-style-shadow-raised,
+        0 0.5rem 1rem rgb(171 190 209 / 40%)
+    );
+    --nxc-focus-ring: 0 0 0 0.25rem rgb(76 175 79 / 25%);
+    --nxc-transition-fast: 160ms ease;
+    --nxc-transition-reference: 300ms ease;
+}
+
+@media (max-width: 767.98px) {
+    :root {
+        --nxc-section-space: 2.75rem;
+        --nxc-page-gutter: 0.9375rem;
+    }
+}

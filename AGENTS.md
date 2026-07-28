@@ -13,13 +13,12 @@ Generated `build/`, `dist/`, bundles, and `node_modules/` directories must not b
 
 ## Build, Test, and Development Commands
 
-Use Node.js 20.12.2 or newer. Run frontend commands from `client-extensions/nexcent-landing-elements/`:
+Use Node.js 20.12.2. Run frontend commands from `client-extensions/nexcent-landing-elements/`:
 
 - `npm run dev` starts the Vite preview server.
 - `npm run typecheck` runs strict TypeScript checks without emitting files.
 - `npm test` runs the Vitest suite once.
 - `npm run build` creates the Vite library and packages fragments.
-- `npm run validate:data-sources` validates content and fragment contracts.
 - `npm run package:fragments` rebuilds the fragment collection archive.
 
 On Windows, run `gradlew.bat deploy` from the workspace root. Use `gradlew.bat deployNexcentFragments` to build and deploy only Nexcent fragments. Verify changes in this order: typecheck, tests, then build.

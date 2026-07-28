@@ -1,6 +1,6 @@
 import type {ReactNode} from 'react';
 
-import staticCss from '../../reference-assets/css/style.css?inline';
+import staticCss from './styles.css?inline';
 
 const THEME_COLOR_REPLACEMENTS: Array<[RegExp, string]> = [
     [/#4caf4f(?![0-9a-f])/gi, 'var(--nxc-color-primary, #4caf4f)'],

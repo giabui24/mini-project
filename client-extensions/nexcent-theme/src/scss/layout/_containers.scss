@@ -1,0 +1,22 @@
+.nxc-container,
+.nxc-container--wide {
+    margin-inline: auto;
+    padding-inline: var(--nxc-page-gutter);
+    width: 100%;
+}
+
+.nxc-container {
+    max-width: var(--nxc-container-width);
+}
+
+.nxc-container--wide {
+    max-width: var(--nxc-wide-container-width);
+}
+
+.nxc-section {
+    padding-block: var(--nxc-section-space);
+}
+
+.nxc-section--surface {
+    background: var(--nxc-color-surface);
+}

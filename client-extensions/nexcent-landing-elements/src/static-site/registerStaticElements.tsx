@@ -1,21 +1,19 @@
 import React, {type ReactNode} from 'react';
 import {createRoot, type Root} from 'react-dom/client';
 
-import {
-    StaticClients,
-    StaticCommunity,
-    StaticCta,
-    StaticFeature,
-    StaticMarketing,
-    StaticStatistics,
-    StaticTestimonial,
-} from './components/ContentSections';
-import {StaticFooter} from './components/Footer';
-import {StaticHeader} from './components/Header';
-import {StaticHero} from './components/Hero';
+import {StaticClients} from './sections/Clients';
+import {StaticCommunity} from './sections/Community';
+import {StaticCta} from './sections/Cta';
+import {StaticFeature} from './sections/Feature';
+import {StaticHero} from './sections/Hero';
+import {StaticMarketing} from './sections/Marketing';
+import {StaticStatistics} from './sections/Statistics';
+import {StaticTestimonial} from './sections/Testimonial';
+import {StaticFooter} from './shell/Footer';
+import {StaticHeader} from './shell/Header';
 import {StaticPage} from './StaticPage';
-import {StaticRuntimeOverrides} from './StaticRuntimeOverrides';
-import {StaticStyleBoundary} from './StaticStyleBoundary';
+import {StaticRuntimeOverrides} from './shell/StaticRuntimeOverrides';
+import {StaticStyleBoundary} from './shell/StaticStyleBoundary';
 
 type StaticRenderer = (element: HTMLElement) => ReactNode;
 

@@ -2,14 +2,14 @@
 
 This client-extension project packages the shared visual foundation for the Nexcent site.
 
-The active visual baseline is the reference frontend under `client-extensions/nexcent-landing-elements/reference-assets`, imported from upstream commit `7d6c7dbc57be24febeca0e18fabdd35278809039` on 2026-07-20. Theme values are translated into Liferay-safe tokens and OOTB Master Page hooks; the upstream global reset, custom hamburger JavaScript, hard-coded content, Swiper, and AOS behavior are not copied into the theme.
+The active visual baseline is implemented by the `nexcent-react-*` custom elements. Theme values are translated into Liferay-safe tokens and exposed to their Shadow DOM hosts.
 
 ## Included client extensions
 
 | Key | Type | Purpose |
 |---|---|---|
 | `nexcent-theme-css` | `themeCSS` | Clay/main theme output and frontend token definition |
-| `nexcent-global-css` | `globalCSS` | Shared aliases, utilities, OOTB Master Page styling hooks, and accessibility rules |
+| `nexcent-global-css` | `globalCSS` | Compiled token aliases, React host integration, layout utilities, and accessibility rules |
 | `nexcent-global-js` | `globalJS` | Small portal context and event utilities under `window.Nexcent` |
 | `nexcent-theme-favicon` | `themeFavicon` | Project favicon |
 
@@ -26,8 +26,7 @@ The theme now mirrors the accepted reference frontend for:
 - 48px default section spacing;
 - 4px button radius and 8px card radius;
 - reference card and raised-card shadows;
-- OOTB Header Login and Sign up action treatments;
-- OOTB Footer and newsletter visual treatment.
+- React host integration for Header, Footer, and landing sections.
 
 The imported reference removes keyboard focus outlines and owns a custom mobile menu. Those choices are intentionally not ported. Liferay owns the Navigation Bar collapse/hamburger interaction, and the theme preserves visible focus states and reduced-motion support.
 
@@ -64,37 +63,15 @@ Site Menu → Design → Style Books → Options → Import
 
 When an older `Nexcent Default` entry already exists, import the updated package and confirm that the new token values are published. Existing Style Book values may otherwise continue overriding the updated Theme CSS fallbacks.
 
-## OOTB Master Page hooks
+## React host integration
 
-Header, Footer, Navigation, and Newsletter remain Liferay OOTB compositions. Add these CSS classes through the Page Builder Advanced panel:
+Header, Footer, and landing sections are provided by `nexcent-react-*` fragments.
+Their visual CSS remains inside Shadow DOM; Global CSS only removes Liferay
+wrapper spacing and forwards Style Book custom properties to each host.
 
-```text
-nxc-site-header
-nxc-header-inner
-nxc-header-actions
-nxc-login-action
-nxc-signup-action
-nxc-site-footer
-nxc-footer-inner
-nxc-newsletter
-nxc-container
-nxc-container--wide
-nxc-section
-```
-
-Suggested mapping:
-
-| Liferay element | CSS class |
-|---|---|
-| Header container | `nxc-site-header` |
-| Inner header row | `nxc-header-inner` |
-| Login action | `nxc-button nxc-login-action` |
-| Sign up action | `nxc-button nxc-signup-action` |
-| Footer container | `nxc-site-footer` |
-| Inner footer row | `nxc-footer-inner` |
-| Object Form / newsletter wrapper | `nxc-newsletter` |
-
-No custom Header, Footer, Navigation, mobile-menu, or Form fragment is required.
+Contact Form is a separate light-DOM custom element. Its fragment owns a
+compiled `index.css`, generated from the component SCSS during fragment
+packaging.
 
 ## Verification
 

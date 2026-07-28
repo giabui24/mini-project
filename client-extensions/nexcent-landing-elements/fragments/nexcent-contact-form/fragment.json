@@ -1,5 +1,6 @@
 {
     "configurationPath": "configuration.json",
+    "cssPath": "index.css",
     "htmlPath": "index.html",
     "name": "Nexcent Contact Us Form",
     "type": "component"

@@ -48,15 +48,14 @@ A TypeScript, React 18, Vite, and SCSS package that builds the Liferay landing-p
 
 Important areas:
 
-- `src/components/` contains the Hero, Features, Services, Rich Text, and content-importer UI, with component-level SCSS.
-- `src/styles.scss` is the shared SCSS entry point.
+- `src/components/` contains standalone React custom elements such as the Contact Form.
 - `src/api/` contains HTTP and Liferay Structured Content access.
 - `src/liferay/` contains Liferay runtime integration.
-- `src/static-site/` contains the static-page shell, headless-content client, and custom-element registration.
+- `src/static-site/` contains the landing sections, page shell, headless-content client, and custom-element registration.
 - `fragments/` contains Liferay Fragment definitions for page sections such as Header, Hero, Clients, Statistics, CTA, and Footer.
-- `scripts/` contains fragment packaging, data-source validation, workbook generation, and visual-audit utilities.
-- `client-extension.yaml` declares the shared React runtime and the Lab Status, Content Importer, Hero, Services, and Features custom elements.
-- `reference-assets/` supplies reference images, icons, styles, content samples, and other source assets used when developing this package.
+- `scripts/` contains the Fragment Set packaging utility.
+- `client-extension.yaml` declares the shared React runtime and Contact Form custom element.
+- `reference-assets/` supplies the images, icons, and fallback content used by the landing components.
 
 Useful commands:
 
@@ -67,10 +66,9 @@ npm run dev
 npm run build
 npm test
 npm run typecheck
-npm run validate:data-sources
 ```
 
-Node.js **20.12.2 or newer** is required.
+Node.js **20.12.2** is required.
 
 ### `client-extensions/nexcent-theme`
 

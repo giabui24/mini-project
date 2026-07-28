@@ -112,40 +112,27 @@ GET /o/headless-delivery/v1.0/sites/{siteId}/content-structures?pageSize=200
 GET /o/headless-delivery/v1.0/content-structures/{structureId}/structured-contents?pageSize=100
 ```
 
-`content.json` remains the visual-test fixture and runtime fallback; it is not
+`content.json` remains the preview fixture and runtime fallback; it is not
 the intended production source for body copy.
-
-The complete field and Fragment Settings contract is documented in:
-
-```text
-docs/master-track/body-data-sources.md
-```
 
 Validate the split locally with:
 
 ```bash
-npm run validate:data-sources
-npm test
 npm run typecheck
+npm test
+npm run build
 ```
 
 ## Production Site Shell
 
 `nexcent-react-header` and `nexcent-react-footer` are production components.
-They share a cached request to:
+Their fragments serialize permission-filtered Navigation Menu items, account
+state, and site identity into nonce-protected JSON script elements. The React
+components read those embedded props without an additional REST request.
 
-```text
-GET /o/nexcent-site-shell/v1.0/sites/{siteId}/site-shell
-```
-
-The endpoint returns permission-filtered Navigation Menu items, guest or
-authenticated account state, and site identity. The REST Builder contract is
-flat for generator compatibility; `siteShellClient.ts` reconstructs the nested
-navigation tree in the browser.
-
-If the endpoint is unavailable, both components render the bundled static
-fallback and mark their custom-element host with
-`data-site-shell-state="fallback"`.
+If the embedded props are missing or invalid, both components render the
+bundled static fallback and mark their custom-element host with a fallback
+content state.
 
 `nexcent-react-page` remains a visual parity preview that uses the same React
 components with fallback data.
