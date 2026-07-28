@@ -11,6 +11,7 @@ import {
     readNumberSetting,
     readStringSetting,
 } from '../runtime/fragmentSettings';
+import {buildArticleDetailUrl} from '../../utils/url';
 
 type HostProps = {
     host?: HTMLElement;
@@ -415,42 +416,50 @@ export function StaticTestimonial({host}: HostProps) {
 
 function mapMarketingContent(
     structuredContent: HeadlessStructuredContent,
-    index: number
+    index: number,
+    siteBaseUrl: string
 ): MarketingItem {
     const fallback =
         FALLBACK_MARKETING_ITEMS[index % FALLBACK_MARKETING_ITEMS.length] ??
         FALLBACK_MARKETING_ITEMS[0];
-    const image = readContentImage(
-        structuredContent,
-        ['thumbnail', 'image', 'thumbnailFile'],
-        {alt: fallback.imageAlt, url: fallback.imageURL}
-    );
-    const targetUrl = readContentText(
-        structuredContent,
-        ['targetUrl', 'linkUrl', 'ctaUrl'],
+
+    // Priority 1: coverImage (top-level Structured Content field)
+    // Priority 2: fallback to contentFields lookup
+    const coverImage = structuredContent.coverImage;
+    const coverImageUrl = coverImage?.image?.contentUrl?.trim() || '';
+    const coverImageDescription =
+        coverImage?.description?.trim() ||
+        coverImage?.image?.description?.trim() ||
+        '';
+    const fallbackImage = coverImageUrl
+        ? {
+              alt:
+                  coverImageDescription ||
+                  structuredContent.title?.trim() ||
+                  fallback.imageAlt,
+              url: coverImageUrl,
+          }
+        : readContentImage(
+              structuredContent,
+              ['coverImage', 'thumbnail', 'image', 'thumbnailFile'],
+              {alt: fallback.imageAlt, url: fallback.imageURL}
+          );
+
+    const articleUrl = buildArticleDetailUrl(
+        siteBaseUrl,
         structuredContent.friendlyUrlPath
-            ? `/w/${structuredContent.friendlyUrlPath}`
-            : fallback.linkHref
     );
 
     return {
-        imageAlt: readContentText(
-            structuredContent,
-            ['thumbnailAlt', 'imageAlt'],
-            image.alt
-        ),
-        imageURL: image.url,
-        linkHref: targetUrl,
+        imageAlt: fallbackImage.alt,
+        imageURL: fallbackImage.url,
+        linkHref: articleUrl || fallback.linkHref,
         linkLabel: readContentText(
             structuredContent,
             ['linkLabel', 'ctaLabel'],
             ''
         ),
-        linkTarget: readContentText(
-            structuredContent,
-            ['linkTarget', 'ctaTarget'],
-            '_self'
-        ),
+        linkTarget: '_self',
         title: readContentText(
             structuredContent,
             ['title', 'heading'],
@@ -476,10 +485,12 @@ export function StaticMarketing({host}: HostProps) {
         content.marketing.description
     );
     const readMoreLabel = readStringSetting(host, 'read-more-label', 'Readmore');
+    const siteBaseUrl = readStringSetting(host, 'data-site-base-url', '');
     const {error, items, status} = useStructuredContentCollection({
         fallback: FALLBACK_MARKETING_ITEMS,
         host,
-        mapContent: mapMarketingContent,
+        mapContent: (content, index) =>
+            mapMarketingContent(content, index, siteBaseUrl),
         maxItems,
         structureIdentifier,
     });
