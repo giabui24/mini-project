@@ -146,6 +146,22 @@ export function StaticHero({host}: HeroProps) {
 
     const slide = slides[activeIndex] ?? slides[0];
 
+    if (!slide) {
+        return (
+            <section
+                className="home"
+                data-runtime-state={status || 'loading'}
+                id="home"
+            >
+                <div className="home__container">
+                    <div className="swiper mySwiper">
+                        <div className="swiper-wrapper" />
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
     return (
         <section className="home" data-runtime-state={status} id="home">
             <div className="home__container">
