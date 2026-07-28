@@ -1,0 +1,1 @@
+# SDD ledger — plan: .superpowers/sdd/cleanup-plan/plan.md

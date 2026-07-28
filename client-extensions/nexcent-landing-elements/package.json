@@ -9,17 +9,14 @@
   "scripts": {
     "build": "vite build && npm run package:fragments",
     "dev": "vite",
-    "generate:workbook": "node scripts/generate-sample-workbook.mjs",
     "package:fragments": "node scripts/package-fragments.mjs",
     "preview:static": "vite --host 0.0.0.0 --port 4173",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit",
-    "validate:data-sources": "node scripts/validate-data-sources.mjs"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "exceljs": "4.4.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
