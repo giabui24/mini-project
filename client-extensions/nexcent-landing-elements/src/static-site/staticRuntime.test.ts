@@ -1,7 +1,7 @@
 import {describe, expect, it} from 'vitest';
 
 import {staticElementNames} from './registerStaticElements';
-import {normalizeStaticCss} from './StaticStyleBoundary';
+import {normalizeStaticCss} from './shell/StaticStyleBoundary';
 
 describe('Nexcent static React runtime', () => {
     it('registers unique custom element names', () => {
