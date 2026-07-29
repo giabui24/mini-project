@@ -3,6 +3,10 @@ const numberFormatter = new Intl.NumberFormat('en-US', {
     maximumFractionDigits: 0,
 });
 
+if ((typeof layoutMode !== 'undefined') && (layoutMode === 'edit')) {
+    fragmentElement.classList.add('nxc-metric-item-fragment--edit');
+}
+
 const formatMetricValue = () => {
     if (!metricValue) {
         return;

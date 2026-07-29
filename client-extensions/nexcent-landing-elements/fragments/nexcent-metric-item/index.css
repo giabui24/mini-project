@@ -49,3 +49,24 @@
 .nxc-metric-item__modal-data {
     display: none;
 }
+
+.nxc-metric-item-fragment--edit .nxc-metric-item {
+    flex-wrap: wrap;
+}
+
+.nxc-metric-item-fragment--edit .nxc-metric-item__modal-data {
+    background: var(--nxc-color-surface, #f5f7fa);
+    border: 1px dashed var(--nxc-color-border, #abbed1);
+    border-radius: 6px;
+    color: var(--nxc-color-heading, #4d4d4d);
+    display: block;
+    flex: 0 0 100%;
+    font-size: 0.875rem;
+    padding: 8px 10px;
+}
+
+.nxc-metric-item-fragment--edit .nxc-metric-item__modal-data::before {
+    color: var(--nxc-color-muted, #89939e);
+    content: attr(data-nxc-mapping-label) ": ";
+    font-weight: 600;
+}
