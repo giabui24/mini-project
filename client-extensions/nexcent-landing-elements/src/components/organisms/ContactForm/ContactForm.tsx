@@ -7,6 +7,8 @@ import {
     useState,
 } from 'react';
 
+import {apiClient} from '../../../api/http';
+
 import './contact-form.scss';
 
 export type ContactFormProps = {
@@ -34,12 +36,6 @@ type ContactFormErrors = Partial<Record<ContactField, string>>;
 type CaptchaChallenge = {
     image: string;
     token: string;
-};
-
-type LiferayWindow = Window & {
-    Liferay?: {
-        authToken?: string;
-    };
 };
 
 const INITIAL_VALUES: ContactFormValues = {
@@ -187,21 +183,9 @@ export function ContactForm({
         setCaptchaError('');
 
         try {
-            const response = await fetch(
-                '/o/captcha/v1.0/captcha/challenge',
-                {
-                    credentials: 'same-origin',
-                    headers: {Accept: 'application/json'},
-                }
+            const challenge = await apiClient.get<CaptchaChallenge>(
+                '/o/captcha/v1.0/captcha/challenge'
             );
-
-            if (!response.ok) {
-                throw new Error(
-                    `CAPTCHA challenge failed with ${response.status}.`
-                );
-            }
-
-            const challenge = (await response.json()) as CaptchaChallenge;
 
             if (!challenge.image || !challenge.token) {
                 throw new Error('CAPTCHA challenge is incomplete.');
@@ -289,32 +273,18 @@ export function ContactForm({
 
         setStatus('submitting');
 
-        const authToken = (window as LiferayWindow).Liferay?.authToken;
-
         try {
-            const response = await fetch(apiURL, {
-                body: JSON.stringify({
+            await apiClient.post<void>(
+                apiURL.toString(),
+                {
                     contactDetails: values.contactDetails.trim(),
                     captchaAnswer: captchaAnswer.trim(),
                     captchaToken: captchaChallenge.token,
                     emailAddress: values.emailAddress.trim(),
                     firstName: values.firstName.trim(),
                     lastName: values.lastName.trim(),
-                }),
-                credentials: 'same-origin',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    ...(authToken ? {'x-csrf-token': authToken} : {}),
-                },
-                method: 'POST',
-            });
-
-            if (!response.ok) {
-                throw new Error(
-                    `Contact request failed with ${response.status}.`
-                );
-            }
+                }
+            );
 
             setValues(INITIAL_VALUES);
             setErrors({});

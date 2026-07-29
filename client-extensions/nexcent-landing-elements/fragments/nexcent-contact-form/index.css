@@ -1,7 +1,60 @@
+:root {
+  --nxc-font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", sans-serif;
+  --nxc-font-size-body: 1rem;
+  --nxc-font-size-small: 0.875rem;
+  --nxc-font-weight-regular: 400;
+  --nxc-font-weight-medium: 500;
+  --nxc-font-weight-semibold: 600;
+  --nxc-font-weight-bold: 700;
+  --nxc-line-height-body: 1.6;
+  --nxc-line-height-heading: 1.2;
+}
+
+:root {
+  --nxc-color-primary: #4caf4f;
+  --nxc-color-primary-hover: #388e3b;
+  --nxc-color-primary-active: #237d31;
+  --nxc-color-secondary: #263238;
+  --nxc-color-heading: #4d4d4d;
+  --nxc-color-text: #717171;
+  --nxc-color-muted: #89939e;
+  --nxc-color-navigation: #18191f;
+  --nxc-color-border: #abbed1;
+  --nxc-color-surface: #f5f7fa;
+  --nxc-color-accent-surface: #e8f5e9;
+  --nxc-color-white: #fff;
+  --nxc-color-danger: #b42318;
+  --nxc-color-success: #237d31;
+}
+
+:where(nexcent-contact-form, nexcent-react-header, nexcent-react-hero, nexcent-react-clients, nexcent-react-community, nexcent-react-feature-primary, nexcent-react-statistics, nexcent-react-feature-secondary, nexcent-react-testimonial, nexcent-react-marketing, nexcent-react-cta, nexcent-react-footer),
+:where(nexcent-contact-form, nexcent-react-header, nexcent-react-hero, nexcent-react-clients, nexcent-react-community, nexcent-react-feature-primary, nexcent-react-statistics, nexcent-react-feature-secondary, nexcent-react-testimonial, nexcent-react-marketing, nexcent-react-cta, nexcent-react-footer) *,
+:where(nexcent-contact-form, nexcent-react-header, nexcent-react-hero, nexcent-react-clients, nexcent-react-community, nexcent-react-feature-primary, nexcent-react-statistics, nexcent-react-feature-secondary, nexcent-react-testimonial, nexcent-react-marketing, nexcent-react-cta, nexcent-react-footer) *::before,
+:where(nexcent-contact-form, nexcent-react-header, nexcent-react-hero, nexcent-react-clients, nexcent-react-community, nexcent-react-feature-primary, nexcent-react-statistics, nexcent-react-feature-secondary, nexcent-react-testimonial, nexcent-react-marketing, nexcent-react-cta, nexcent-react-footer) *::after {
+  box-sizing: border-box;
+}
+
+:where(nexcent-contact-form, nexcent-react-header, nexcent-react-hero, nexcent-react-clients, nexcent-react-community, nexcent-react-feature-primary, nexcent-react-statistics, nexcent-react-feature-secondary, nexcent-react-testimonial, nexcent-react-marketing, nexcent-react-cta, nexcent-react-footer) {
+  color: var(--nxc-color-text);
+  font-family: var(--nxc-font-family);
+  font-size: var(--nxc-font-size-body);
+  font-weight: var(--nxc-font-weight-regular);
+  line-height: var(--nxc-line-height-body);
+}
+
+:where(nexcent-contact-form, nexcent-react-header, nexcent-react-hero, nexcent-react-clients, nexcent-react-community, nexcent-react-feature-primary, nexcent-react-statistics, nexcent-react-feature-secondary, nexcent-react-testimonial, nexcent-react-marketing, nexcent-react-cta, nexcent-react-footer) :where(h1, h2, h3, h4, h5, h6) {
+  color: var(--nxc-color-heading);
+  font-weight: var(--nxc-font-weight-semibold);
+  line-height: var(--nxc-line-height-heading);
+}
+
 .nxc-contact {
   background: var(--nxc-color-surface, #f5f7fa);
   color: var(--nxc-color-text);
   font-family: var(--nxc-font-family, Inter, system-ui, sans-serif);
+  max-width: 100%;
+  overflow: hidden;
   width: 100%;
 }
 .nxc-contact__container {
@@ -11,7 +64,9 @@
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
   margin: 0 auto;
   max-width: var(--nxc-container-width, 72rem);
+  min-width: 0;
   padding: clamp(3rem, 8vw, 6rem) clamp(1.25rem, 5vw, 3rem);
+  width: 100%;
 }
 .nxc-contact__eyebrow {
   color: var(--nxc-color-primary, #4caf4f);
@@ -45,6 +100,8 @@
   box-shadow: 0 2px 4px rgba(171, 190, 209, 0.2);
   display: grid;
   gap: 20px;
+  max-width: 100%;
+  min-width: 0;
   padding: clamp(24px, 4vw, 32px);
 }
 .nxc-contact__row {
@@ -118,6 +175,52 @@
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
+}
+.nxc-contact__captcha {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+.nxc-contact__captcha-challenge {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  min-height: 50px;
+}
+.nxc-contact__captcha-challenge img {
+  border: 1px solid var(--nxc-color-border, #abbed1);
+  display: block;
+  height: 50px;
+  max-width: 100%;
+  object-fit: contain;
+  width: 150px;
+}
+.nxc-contact__captcha-challenge span {
+  color: var(--nxc-color-muted, #717171);
+  font-size: 14px;
+}
+.nxc-contact__captcha-refresh {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: var(--nxc-color-primary, #4caf4f);
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px;
+}
+.nxc-contact__captcha-refresh:hover:not(:disabled) {
+  text-decoration: underline;
+}
+.nxc-contact__captcha-refresh:focus-visible {
+  border-radius: 4px;
+  outline: 3px solid rgba(76, 175, 79, 0.3);
+}
+.nxc-contact__captcha-refresh:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 .nxc-contact__submit {
   align-items: center;
@@ -225,11 +328,36 @@
   .nxc-contact__container, .nxc-contact__row {
     grid-template-columns: 1fr;
   }
+  .nxc-contact__container {
+    gap: 32px;
+    padding: 48px 20px;
+  }
+  .nxc-contact__form {
+    padding: 24px;
+  }
   .nxc-contact__intro {
     max-width: none;
     text-align: center;
   }
+  .nxc-contact__intro h2 {
+    font-size: 40px;
+  }
   .nxc-contact__submit {
     width: 100%;
+  }
+}
+@media (max-width: 30rem) {
+  .nxc-contact__container {
+    padding-inline: 16px;
+  }
+  .nxc-contact__form {
+    padding: 20px;
+  }
+  .nxc-contact__captcha-challenge {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .nxc-contact__captcha-refresh {
+    padding: 4px 0;
   }
 }

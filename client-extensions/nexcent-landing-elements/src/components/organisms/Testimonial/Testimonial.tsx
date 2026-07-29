@@ -7,6 +7,8 @@ import {
     readStringSetting,
 } from '../../../landing/runtime/fragmentSettings';
 
+import './testimonial.scss';
+
 type HostProps = {
     host?: HTMLElement;
 };

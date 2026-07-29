@@ -1,0 +1,51 @@
+$nexcent-elements:
+    nexcent-contact-form,
+    nexcent-react-header,
+    nexcent-react-hero,
+    nexcent-react-clients,
+    nexcent-react-community,
+    nexcent-react-feature-primary,
+    nexcent-react-statistics,
+    nexcent-react-feature-secondary,
+    nexcent-react-testimonial,
+    nexcent-react-marketing,
+    nexcent-react-cta,
+    nexcent-react-footer;
+
+:root {
+    --nxc-color-primary: #4caf4f;
+    --nxc-color-primary-hover: #388e3b;
+    --nxc-color-primary-active: #237d31;
+    --nxc-color-secondary: #263238;
+    --nxc-color-heading: #4d4d4d;
+    --nxc-color-text: #717171;
+    --nxc-color-muted: #89939e;
+    --nxc-color-navigation: #18191f;
+    --nxc-color-border: #abbed1;
+    --nxc-color-surface: #f5f7fa;
+    --nxc-color-accent-surface: #e8f5e9;
+    --nxc-color-white: #fff;
+    --nxc-color-danger: #b42318;
+    --nxc-color-success: #237d31;
+}
+
+:where(#{$nexcent-elements}),
+:where(#{$nexcent-elements}) *,
+:where(#{$nexcent-elements}) *::before,
+:where(#{$nexcent-elements}) *::after {
+    box-sizing: border-box;
+}
+
+:where(#{$nexcent-elements}) {
+    color: var(--nxc-color-text);
+    font-family: var(--nxc-font-family);
+    font-size: var(--nxc-font-size-body);
+    font-weight: var(--nxc-font-weight-regular);
+    line-height: var(--nxc-line-height-body);
+}
+
+:where(#{$nexcent-elements}) :where(h1, h2, h3, h4, h5, h6) {
+    color: var(--nxc-color-heading);
+    font-weight: var(--nxc-font-weight-semibold);
+    line-height: var(--nxc-line-height-heading);
+}

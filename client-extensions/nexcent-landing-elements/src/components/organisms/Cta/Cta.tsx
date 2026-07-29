@@ -4,6 +4,8 @@ import {
     readStringSetting,
 } from '../../../landing/runtime/fragmentSettings';
 
+import './cta.scss';
+
 type HostProps = {
     host?: HTMLElement;
 };

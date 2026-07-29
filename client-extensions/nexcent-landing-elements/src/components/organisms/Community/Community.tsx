@@ -13,6 +13,8 @@ import {
 } from '../../../landing/runtime/fragmentSettings';
 import {buildArticleDetailUrl} from '../../../utils/url';
 
+import './community.scss';
+
 type HostProps = {
     host?: HTMLElement;
 };

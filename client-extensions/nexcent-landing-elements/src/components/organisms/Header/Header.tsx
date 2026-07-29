@@ -12,6 +12,8 @@ import type {
     NavigationItem,
 } from '../../../landing/site-shell/types';
 
+import './header.scss';
+
 type HeaderProps = {
     host?: HTMLElement;
 };

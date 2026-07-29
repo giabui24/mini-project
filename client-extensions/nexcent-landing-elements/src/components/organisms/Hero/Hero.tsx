@@ -14,6 +14,8 @@ import {
     readStringSetting,
 } from '../../../landing/runtime/fragmentSettings';
 
+import './hero.scss';
+
 type HeroProps = {
     host?: HTMLElement;
 };

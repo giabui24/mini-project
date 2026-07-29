@@ -4,9 +4,12 @@ import {
     useState,
 } from 'react';
 
+import {apiClient} from '../../../api/http';
 import content from '../../../../reference-assets/content.json';
 import {resolveStaticAsset, type StaticAssetKey} from '../../../landing/assets';
 import type {NavigationItem} from '../../../landing/site-shell/types';
+
+import './footer.scss';
 
 type FooterProps = {
     host?: HTMLElement;
@@ -26,12 +29,6 @@ type RuntimeState = {
     context: FooterRuntimeContext;
     error?: Error;
     status: 'fallback' | 'preview' | 'ready';
-};
-
-type LiferayWindow = Window & {
-    Liferay?: {
-        authToken?: string;
-    };
 };
 
 const SOCIAL_ASSETS: Record<string, StaticAssetKey> = {
@@ -348,31 +345,17 @@ export function StaticFooter({host}: FooterProps) {
         const form = event.currentTarget;
         const formData = new FormData(form);
         const email = String(formData.get('email') ?? '').trim();
-        const authToken = (window as LiferayWindow).Liferay?.authToken;
-
         try {
-            const response = await fetch(newsletterEndpoint, {
-                body: JSON.stringify({
+            await apiClient.post<void>(
+                newsletterEndpoint,
+                {
                     consent: true,
                     email,
                     locale:
                         document.documentElement.lang || navigator.language,
                     sourcePage: window.location.pathname,
-                }),
-                credentials: 'same-origin',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    ...(authToken ? {'x-csrf-token': authToken} : {}),
-                },
-                method: 'POST',
-            });
-
-            if (!response.ok) {
-                throw new Error(
-                    `Newsletter request failed with ${response.status}`
-                );
-            }
+                }
+            );
 
             form.reset();
             setNewsletterState('success');
