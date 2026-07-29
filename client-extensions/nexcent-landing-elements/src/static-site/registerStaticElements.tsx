@@ -11,14 +11,12 @@ import {StaticStatistics} from './sections/Statistics';
 import {StaticTestimonial} from './sections/Testimonial';
 import {StaticFooter} from './shell/Footer';
 import {StaticHeader} from './shell/Header';
-import {StaticPage} from './StaticPage';
 import {StaticRuntimeOverrides} from './shell/StaticRuntimeOverrides';
 import {StaticStyleBoundary} from './shell/StaticStyleBoundary';
 
 type StaticRenderer = (element: HTMLElement) => ReactNode;
 
 export const staticElementNames = [
-    'nexcent-react-page',
     'nexcent-react-header',
     'nexcent-react-hero',
     'nexcent-react-clients',
@@ -70,7 +68,6 @@ function registerShadowReactElement(name: string, renderer: StaticRenderer) {
 }
 
 export function registerStaticElements() {
-    registerShadowReactElement('nexcent-react-page', () => <StaticPage />);
     registerShadowReactElement('nexcent-react-header', (element) => (
         <StaticHeader host={element} />
     ));

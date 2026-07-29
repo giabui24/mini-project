@@ -3,10 +3,10 @@
 This package converts the markup and behaviour from `reference-assets/` into
 React components while keeping those resources as the visual baseline.
 
-## Standalone static preview
+## Storybook component preview
 
-The complete React page can run without Liferay and without the Site Shell or
-Headless Delivery APIs. It reads the bundled mock content from:
+Each React component can run without Liferay and without the Site Shell or
+Headless Delivery APIs in Storybook. Preview data is read from:
 
 ```text
 client-extensions/nexcent-landing-elements/reference-assets/content.json
@@ -17,24 +17,18 @@ Run:
 ```bash
 cd client-extensions/nexcent-landing-elements
 npm ci
-npm run preview:static
+npm run storybook
 ```
 
 Open:
 
 ```text
-http://localhost:4173
+http://localhost:6006
 ```
 
-This preview renders `nexcent-react-page`, including the React Header, all body
-sections, and the React Footer. No request is sent to Liferay.
-
-The intended side-by-side workflow is:
-
-```text
-Static React preview: http://localhost:4173
-Liferay runtime:       http://localhost:8080
-```
+Stories render Header, each body section, Footer, and Contact Form independently.
+No request is sent to Liferay when a component is rendered without a custom
+element host.
 
 ## Runtime contract
 
@@ -134,5 +128,5 @@ If the embedded props are missing or invalid, both components render the
 bundled static fallback and mark their custom-element host with a fallback
 content state.
 
-`nexcent-react-page` remains a visual parity preview that uses the same React
-components with fallback data.
+Storybook is the visual preview for the individual React components and uses
+the same fallback data as the production custom elements.
