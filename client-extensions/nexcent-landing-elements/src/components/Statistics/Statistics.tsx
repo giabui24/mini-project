@@ -1,11 +1,11 @@
-import content from '../../../../reference-assets/content.json';
-import {resolveStaticAsset} from '../assets';
+import content from '../../../reference-assets/content.json';
+import {resolveStaticAsset} from '../../landing/assets';
 
 import {
     readBooleanSetting,
     readNumberSetting,
     readStringSetting,
-} from '../runtime/fragmentSettings';
+} from '../../landing/runtime/fragmentSettings';
 
 type HostProps = {
     host?: HTMLElement;

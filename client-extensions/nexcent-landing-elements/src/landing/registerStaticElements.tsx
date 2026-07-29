@@ -1,16 +1,16 @@
 import React, {type ReactNode} from 'react';
 import {createRoot, type Root} from 'react-dom/client';
 
-import {StaticClients} from './sections/Clients';
-import {StaticCommunity} from './sections/Community';
-import {StaticCta} from './sections/Cta';
-import {StaticFeature} from './sections/Feature';
-import {StaticHero} from './sections/Hero';
-import {StaticMarketing} from './sections/Marketing';
-import {StaticStatistics} from './sections/Statistics';
-import {StaticTestimonial} from './sections/Testimonial';
-import {StaticFooter} from './shell/Footer';
-import {StaticHeader} from './shell/Header';
+import {StaticClients} from '../components/Clients/Clients';
+import {StaticCommunity} from '../components/Community/Community';
+import {StaticCta} from '../components/Cta/Cta';
+import {StaticFeature} from '../components/Feature/Feature';
+import {StaticFooter} from '../components/Footer/Footer';
+import {StaticHeader} from '../components/Header/Header';
+import {StaticHero} from '../components/Hero/Hero';
+import {StaticMarketing} from '../components/Marketing/Marketing';
+import {StaticStatistics} from '../components/Statistics/Statistics';
+import {StaticTestimonial} from '../components/Testimonial/Testimonial';
 import {StaticRuntimeOverrides} from './shell/StaticRuntimeOverrides';
 import {StaticStyleBoundary} from './shell/StaticStyleBoundary';
 

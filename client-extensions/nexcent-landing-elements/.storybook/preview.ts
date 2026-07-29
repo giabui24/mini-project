@@ -1,8 +1,8 @@
 import type {Preview} from '@storybook/react-vite';
 import {createElement} from 'react';
 
-import {StaticRuntimeOverrides} from '../src/components/Landing/shell/StaticRuntimeOverrides';
-import {StaticStyleBoundary} from '../src/components/Landing/shell/StaticStyleBoundary';
+import {StaticRuntimeOverrides} from '../src/landing/shell/StaticRuntimeOverrides';
+import {StaticStyleBoundary} from '../src/landing/shell/StaticStyleBoundary';
 
 const preview: Preview = {
     decorators: [

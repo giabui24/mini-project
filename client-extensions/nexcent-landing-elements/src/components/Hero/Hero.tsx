@@ -1,18 +1,18 @@
 import {useEffect, useMemo, useState} from 'react';
 
-import content from '../../../../reference-assets/content.json';
-import {resolveStaticAsset} from '../assets';
+import content from '../../../reference-assets/content.json';
+import {resolveStaticAsset} from '../../landing/assets';
 import {
     type HeadlessStructuredContent,
     readContentImage,
     readContentText,
-} from '../headless/headlessContentClient';
-import {useStructuredContentCollection} from '../headless/useStructuredContentCollection';
+} from '../../landing/headless/headlessContentClient';
+import {useStructuredContentCollection} from '../../landing/headless/useStructuredContentCollection';
 import {
     readBooleanSetting,
     readNumberSetting,
     readStringSetting,
-} from '../runtime/fragmentSettings';
+} from '../../landing/runtime/fragmentSettings';
 
 type HeroProps = {
     host?: HTMLElement;

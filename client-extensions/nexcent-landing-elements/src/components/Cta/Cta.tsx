@@ -1,8 +1,8 @@
-import content from '../../../../reference-assets/content.json';
+import content from '../../../reference-assets/content.json';
 import {
     readBooleanSetting,
     readStringSetting,
-} from '../runtime/fragmentSettings';
+} from '../../landing/runtime/fragmentSettings';
 
 type HostProps = {
     host?: HTMLElement;

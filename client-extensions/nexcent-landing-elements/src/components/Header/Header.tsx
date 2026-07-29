@@ -5,9 +5,12 @@ import {
     useState,
 } from 'react';
 
-import content from '../../../../reference-assets/content.json';
-import {resolveStaticAsset} from '../assets';
-import type {AccountContext, NavigationItem} from '../site-shell/types';
+import content from '../../../reference-assets/content.json';
+import {resolveStaticAsset} from '../../landing/assets';
+import type {
+    AccountContext,
+    NavigationItem,
+} from '../../landing/site-shell/types';
 
 type HeaderProps = {
     host?: HTMLElement;

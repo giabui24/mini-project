@@ -5,7 +5,7 @@ import {
     listStructuredContents,
     resolveContentStructure,
     type StructuredContent,
-} from '../../../api/structuredContent';
+} from '../../api/structuredContent';
 
 export type HeadlessDocument = ImageValue;
 export type HeadlessContentField = ContentField;
