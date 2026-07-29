@@ -25,7 +25,31 @@
     max-width: 760px;
     overflow: auto;
     position: relative;
+    scrollbar-color: var(--nxc-color-border, #abbed1) transparent;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
     width: 100%;
+}
+
+.nxc-global-modal::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+}
+
+.nxc-global-modal::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.nxc-global-modal::-webkit-scrollbar-thumb {
+    background: var(--nxc-color-border, #abbed1);
+    background-clip: padding-box;
+    border: 3px solid transparent;
+    border-radius: 999px;
+}
+
+.nxc-global-modal::-webkit-scrollbar-thumb:hover {
+    background: var(--nxc-color-primary, #4caf4f);
+    background-clip: padding-box;
 }
 
 .nxc-global-modal--without-media {
