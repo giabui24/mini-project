@@ -385,7 +385,14 @@ export function installModalTriggerDelegation(
         const trigger = findModalTrigger(event.composedPath());
 
         if (
+            event.defaultPrevented ||
+            event.button !== 0 ||
+            event.altKey ||
+            event.ctrlKey ||
+            event.metaKey ||
+            event.shiftKey ||
             !trigger ||
+            trigger.hasAttribute('data-nxc-modal-editing') ||
             trigger.matches(':disabled, [aria-disabled="true"]')
         ) {
             return;

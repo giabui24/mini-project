@@ -35,16 +35,19 @@ function createElement({
 
 function createTrigger({
     modalData = '',
+    modalEditing = false,
     selectors = {},
 }: {
     modalData?: string;
+    modalEditing?: boolean;
     selectors?: Record<string, Element>;
 }) {
     return {
         getAttribute: (name: string) =>
             name === 'data-nxc-modal' ? modalData : null,
         hasAttribute: (name: string) =>
-            name === 'data-nxc-modal' && Boolean(modalData),
+            (name === 'data-nxc-modal' && Boolean(modalData)) ||
+            (name === 'data-nxc-modal-editing' && modalEditing),
         matches: () => false,
         querySelector: (selector: string) => selectors[selector] ?? null,
     } as unknown as HTMLElement;
@@ -328,8 +331,14 @@ describe('global modal trigger delegation', () => {
         const uninstall = installModalTriggerDelegation(handler);
 
         clickListener?.({
+            altKey: false,
+            button: 0,
             composedPath: () => [trigger],
+            ctrlKey: false,
+            defaultPrevented: false,
+            metaKey: false,
             preventDefault,
+            shiftKey: false,
         } as unknown as MouseEvent);
 
         expect(handler).toHaveBeenCalledWith(RESOLVED_DOCUMENT, trigger);
@@ -365,8 +374,104 @@ describe('global modal trigger delegation', () => {
         const uninstall = installModalTriggerDelegation(handler);
 
         clickListener?.({
+            altKey: false,
+            button: 0,
             composedPath: () => [trigger],
+            ctrlKey: false,
+            defaultPrevented: false,
+            metaKey: false,
             preventDefault,
+            shiftKey: false,
+        } as unknown as MouseEvent);
+
+        expect(handler).not.toHaveBeenCalled();
+        expect(preventDefault).not.toHaveBeenCalled();
+
+        uninstall();
+    });
+
+    it.each([
+        {button: 1, name: 'a non-primary click'},
+        {button: 0, ctrlKey: true, name: 'a modified click'},
+        {button: 0, defaultPrevented: true, name: 'an already handled click'},
+    ])('keeps fallback navigation for $name', (eventState) => {
+        let clickListener: ((event: MouseEvent) => void) | undefined;
+        const documentTarget = {
+            addEventListener: vi.fn(
+                (_name: string, listener: (event: MouseEvent) => void) => {
+                    clickListener = listener;
+                }
+            ),
+            removeEventListener: vi.fn(),
+        };
+        const trigger = createTrigger({
+            modalData: JSON.stringify({
+                slots: {title: {value: 'Members'}},
+                version: 1,
+            }),
+        });
+        const handler = vi.fn();
+        const preventDefault = vi.fn();
+
+        vi.stubGlobal('window', {document: documentTarget});
+
+        const uninstall = installModalTriggerDelegation(handler);
+
+        clickListener?.(
+            Object.assign(
+                {
+                    altKey: false,
+                    button: 0,
+                    composedPath: () => [trigger],
+                    ctrlKey: false,
+                    defaultPrevented: false,
+                    metaKey: false,
+                    preventDefault,
+                    shiftKey: false,
+                },
+                eventState
+            ) as unknown as MouseEvent
+        );
+
+        expect(handler).not.toHaveBeenCalled();
+        expect(preventDefault).not.toHaveBeenCalled();
+
+        uninstall();
+    });
+
+    it('ignores modal triggers while their fragment is being edited', () => {
+        let clickListener: ((event: MouseEvent) => void) | undefined;
+        const documentTarget = {
+            addEventListener: vi.fn(
+                (_name: string, listener: (event: MouseEvent) => void) => {
+                    clickListener = listener;
+                }
+            ),
+            removeEventListener: vi.fn(),
+        };
+        const trigger = createTrigger({
+            modalData: JSON.stringify({
+                slots: {title: {value: 'Members'}},
+                version: 1,
+            }),
+            modalEditing: true,
+        });
+        const handler = vi.fn();
+        const preventDefault = vi.fn();
+
+        vi.stubGlobal('window', {document: documentTarget});
+
+        const uninstall = installModalTriggerDelegation(handler);
+
+        clickListener?.({
+            altKey: false,
+            button: 0,
+            composedPath: () => [trigger],
+            ctrlKey: false,
+            defaultPrevented: false,
+            metaKey: false,
+            preventDefault,
+            shiftKey: false,
         } as unknown as MouseEvent);
 
         expect(handler).not.toHaveBeenCalled();
