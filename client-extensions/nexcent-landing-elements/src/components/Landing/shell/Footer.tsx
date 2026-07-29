@@ -4,7 +4,7 @@ import {
     useState,
 } from 'react';
 
-import content from '../../../reference-assets/content.json';
+import content from '../../../../reference-assets/content.json';
 import {resolveStaticAsset, type StaticAssetKey} from '../assets';
 import type {NavigationItem} from '../site-shell/types';
 

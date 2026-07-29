@@ -1,4 +1,4 @@
-import content from '../../../reference-assets/content.json';
+import content from '../../../../reference-assets/content.json';
 import {
     readBooleanSetting,
     readStringSetting,

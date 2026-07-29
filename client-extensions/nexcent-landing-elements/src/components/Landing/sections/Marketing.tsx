@@ -1,4 +1,4 @@
-import content from '../../../reference-assets/content.json';
+import content from '../../../../reference-assets/content.json';
 import {resolveStaticAsset} from '../assets';
 import {
     type HeadlessStructuredContent,
@@ -11,7 +11,7 @@ import {
     readNumberSetting,
     readStringSetting,
 } from '../runtime/fragmentSettings';
-import {buildArticleDetailUrl} from '../../utils/url';
+import {buildArticleDetailUrl} from '../../../utils/url';
 
 type HostProps = {
     host?: HTMLElement;

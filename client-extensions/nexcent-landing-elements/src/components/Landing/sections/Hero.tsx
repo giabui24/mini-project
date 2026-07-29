@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useState} from 'react';
 
-import content from '../../../reference-assets/content.json';
+import content from '../../../../reference-assets/content.json';
 import {resolveStaticAsset} from '../assets';
 import {
     type HeadlessStructuredContent,

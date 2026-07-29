@@ -1,4 +1,4 @@
-# Nexcent static-to-React runtime
+# Nexcent landing React runtime
 
 This package converts the markup and behaviour from `reference-assets/` into
 React components while keeping those resources as the visual baseline.
