@@ -62,8 +62,7 @@ Supported sample entry external reference codes:
 - `NXC_METRIC_PAYMENTS`
 
 The executor looks up the Object Definition by `NXC_METRIC_SNAPSHOT`. A
-configured entry must exist. It reads `metricNumericValue` first and falls back
-to `metricValue`, which may contain an integer with optional comma separators.
-On every update it copies the current value to `previousMetricValue`, writes
-the new value to both `metricNumericValue` and `metricValue`, updates
-`snapshotDate`, and clamps the result to zero.
+configured entry must exist, and its `metricValue` must be a Long Integer. On
+every update it copies the current value to `previousMetricValue`, writes the
+new value to `metricValue`, updates `snapshotDate`, and clamps the result to
+zero.

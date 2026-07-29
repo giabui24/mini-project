@@ -104,11 +104,7 @@ public class NexcentMetricsDispatchTaskExecutor
     private long _getMetricValue(
         Map<String, Serializable> values, String externalReferenceCode) {
 
-        Serializable metricValue = values.get("metricNumericValue");
-
-        if (metricValue == null) {
-            metricValue = values.get("metricValue");
-        }
+        Serializable metricValue = values.get("metricValue");
 
         if (metricValue == null) {
             throw new IllegalArgumentException(
@@ -153,8 +149,7 @@ public class NexcentMetricsDispatchTaskExecutor
             0,
             Math.round(currentValue * (1 + (growthPercent / 100))));
 
-        values.put("metricNumericValue", updatedValue);
-        values.put("metricValue", String.valueOf(updatedValue));
+        values.put("metricValue", updatedValue);
         values.put("previousMetricValue", currentValue);
         values.put("snapshotDate", LocalDate.now());
 
