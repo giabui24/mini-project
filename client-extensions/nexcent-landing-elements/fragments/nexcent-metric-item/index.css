@@ -1,12 +1,23 @@
 .nxc-metric-item {
     align-items: center;
+    appearance: none;
+    background: transparent;
+    border: 0;
     color: var(--nxc-color-text, #717171);
+    cursor: pointer;
     display: flex;
     font-family: var(--nxc-font-family, Inter, system-ui, sans-serif);
     gap: 16px;
     justify-content: flex-start;
     min-width: 0;
+    padding: 0;
+    text-align: left;
     width: 100%;
+}
+
+.nxc-metric-item:focus-visible {
+    outline: 2px solid var(--nxc-color-primary, #4caf4f);
+    outline-offset: 6px;
 }
 
 .nxc-metric-item__icon {
