@@ -60,6 +60,7 @@ const RESOLVED_DOCUMENT: ResolvedModalDocument = {
 };
 
 afterEach(() => {
+    vi.restoreAllMocks();
     vi.unstubAllGlobals();
 });
 
@@ -135,6 +136,49 @@ describe('global modal document schema', () => {
         });
     });
 
+    it('resolves a document composed entirely from direct values', () => {
+        const rule = parseModalDocumentRule(
+            JSON.stringify({
+                id: 'featured-customer-story',
+                slots: {
+                    description: {value: 'A customer success story.'},
+                    eyebrow: {value: 'Customer story'},
+                    facts: [
+                        {
+                            label: {value: 'Customer'},
+                            value: {value: 'Tim Smith'},
+                        },
+                    ],
+                    media: {
+                        alt: 'Tim Smith',
+                        url: '/customers/tim-smith.jpg',
+                    },
+                    title: {
+                        value: 'British Dragon Boat Racing Association',
+                    },
+                },
+                version: 1,
+            })
+        );
+
+        expect(
+            rule && resolveModalDocument(rule, createTrigger({}))
+        ).toEqual({
+            id: 'featured-customer-story',
+            slots: {
+                description: 'A customer success story.',
+                eyebrow: 'Customer story',
+                facts: [{label: 'Customer', value: 'Tim Smith'}],
+                media: {
+                    alt: 'Tim Smith',
+                    url: '/customers/tim-smith.jpg',
+                },
+                title: 'British Dragon Boat Racing Association',
+            },
+            version: 1,
+        });
+    });
+
     it('rejects a resolved document when its required title is missing', () => {
         const rule = parseModalDocumentRule(
             JSON.stringify({
@@ -191,6 +235,7 @@ describe('global modal trigger delegation', () => {
             }),
         });
         const handler = vi.fn();
+        const preventDefault = vi.fn();
 
         vi.stubGlobal('window', {document: documentTarget});
 
@@ -198,15 +243,50 @@ describe('global modal trigger delegation', () => {
 
         clickListener?.({
             composedPath: () => [trigger],
+            preventDefault,
         } as unknown as MouseEvent);
 
         expect(handler).toHaveBeenCalledWith(RESOLVED_DOCUMENT, trigger);
+        expect(preventDefault).toHaveBeenCalledOnce();
 
         uninstall();
         expect(documentTarget.removeEventListener).toHaveBeenCalledWith(
             'click',
             clickListener
         );
+    });
+
+    it('does not block navigation when the trigger rule is invalid', () => {
+        let clickListener: ((event: MouseEvent) => void) | undefined;
+        const documentTarget = {
+            addEventListener: (
+                name: string,
+                listener: (event: MouseEvent) => void
+            ) => {
+                if (name === 'click') {
+                    clickListener = listener;
+                }
+            },
+            removeEventListener: vi.fn(),
+        };
+        const trigger = createTrigger({modalData: '{'});
+        const handler = vi.fn();
+        const preventDefault = vi.fn();
+
+        vi.stubGlobal('window', {document: documentTarget});
+        vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+        const uninstall = installModalTriggerDelegation(handler);
+
+        clickListener?.({
+            composedPath: () => [trigger],
+            preventDefault,
+        } as unknown as MouseEvent);
+
+        expect(handler).not.toHaveBeenCalled();
+        expect(preventDefault).not.toHaveBeenCalled();
+
+        uninstall();
     });
 });
 

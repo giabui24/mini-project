@@ -43,6 +43,19 @@ export function StaticFeature({featureKey, host}: FeatureProps) {
     );
     const imageAlt = readStringSetting(host, 'image-alt', fallback.imageAlt);
     const showButton = readBooleanSetting(host, 'show-button', true);
+    const modalRule = JSON.stringify({
+        id: `feature-${featureKey}`,
+        slots: {
+            description: {value: description},
+            eyebrow: {value: 'Feature'},
+            media: {
+                alt: imageAlt,
+                url: imageURL,
+            },
+            title: {value: title},
+        },
+        version: 1,
+    });
 
     return (
         <section
@@ -55,7 +68,9 @@ export function StaticFeature({featureKey, host}: FeatureProps) {
                     <p className="block__info">{description}</p>
                     {showButton ? (
                         <a
+                            aria-haspopup="dialog"
                             className="pixelgrade__btn btn block__box"
+                            data-nxc-modal={modalRule}
                             href={buttonHref}
                             target={buttonTarget || undefined}
                         >

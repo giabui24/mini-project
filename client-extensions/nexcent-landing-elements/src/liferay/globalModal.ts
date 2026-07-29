@@ -318,6 +318,7 @@ export function installModalTriggerDelegation(
             return;
         }
 
+        event.preventDefault();
         handler(document, trigger);
     };
 
