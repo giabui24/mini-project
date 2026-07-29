@@ -25,7 +25,7 @@ From the workspace root:
 
 ```properties
 metricExternalReferenceCodes=NXC_METRIC_MEMBERS,NXC_METRIC_PAYMENTS
-minimumGrowthPercent=1
+minimumGrowthPercent=-10
 maximumGrowthPercent=10
 ```
 
@@ -48,8 +48,11 @@ and the generated growth percentage.
 | Setting | Default | Description |
 | --- | --- | --- |
 | `metricExternalReferenceCodes` | All four sample metrics | Comma-separated Object Entry external reference codes |
-| `minimumGrowthPercent` | `1` | Inclusive lower growth bound |
+| `minimumGrowthPercent` | `-10` | Inclusive lower growth bound |
 | `maximumGrowthPercent` | `10` | Inclusive upper growth bound |
+
+Both percentage bounds must be between `-100` and `100`, and the minimum
+cannot exceed the maximum. Negative values simulate a decrease.
 
 Supported sample entry external reference codes:
 
@@ -58,6 +61,9 @@ Supported sample entry external reference codes:
 - `NXC_METRIC_EVENT_BOOKINGS`
 - `NXC_METRIC_PAYMENTS`
 
-The executor looks up the Object Definition by
-`NXC_METRIC_SNAPSHOT`. A configured entry must exist, and its `metricValue`
-must contain an integer with optional comma separators.
+The executor looks up the Object Definition by `NXC_METRIC_SNAPSHOT`. A
+configured entry must exist. It reads `metricNumericValue` first and falls back
+to `metricValue`, which may contain an integer with optional comma separators.
+On every update it copies the current value to `previousMetricValue`, writes
+the new value to both `metricNumericValue` and `metricValue`, updates
+`snapshotDate`, and clamps the result to zero.

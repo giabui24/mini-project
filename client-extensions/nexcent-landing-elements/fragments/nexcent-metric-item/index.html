@@ -1,7 +1,7 @@
 <button
     aria-haspopup="dialog"
     class="nxc-metric-item"
-    data-nxc-modal='{"version":1,"slots":{"eyebrow":{"value":"Latest metric"},"media":{"read":"image","selector":".nxc-metric-item__icon"},"primaryValue":{"read":"text","selector":".nxc-metric-item__value"},"title":{"read":"text","selector":".nxc-metric-item__label"}}}'
+    data-nxc-modal='{"version":1,"slots":{"comparison":{"current":{"read":"text","selector":".nxc-metric-item__value"},"previous":{"read":"text","selector":".nxc-metric-item__previous-value"}},"eyebrow":{"value":"Latest metric"},"facts":[{"label":{"value":"Last updated"},"value":{"read":"text","selector":".nxc-metric-item__snapshot-date"}}],"media":{"read":"image","selector":".nxc-metric-item__icon"},"primaryValue":{"read":"text","selector":".nxc-metric-item__value"},"title":{"read":"text","selector":".nxc-metric-item__label"}}}'
     type="button"
 >
     <img
@@ -29,4 +29,21 @@
             Metric
         </p>
     </div>
+
+    <span
+        aria-hidden="true"
+        class="nxc-metric-item__modal-data nxc-metric-item__previous-value"
+        data-lfr-editable-id="previousMetricValue"
+        data-lfr-editable-type="text"
+    >
+        0
+    </span>
+    <span
+        aria-hidden="true"
+        class="nxc-metric-item__modal-data nxc-metric-item__snapshot-date"
+        data-lfr-editable-id="snapshotDate"
+        data-lfr-editable-type="text"
+    >
+        Not available
+    </span>
 </button>

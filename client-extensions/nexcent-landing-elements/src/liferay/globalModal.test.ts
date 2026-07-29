@@ -179,6 +179,92 @@ describe('global modal document schema', () => {
         });
     });
 
+    it.each([
+        {
+            current: '1,100',
+            expected: {
+                deltaValue: '100',
+                direction: 'up',
+                percent: 10,
+                previousValue: '1000',
+            },
+            previous: '1,000',
+        },
+        {
+            current: '900',
+            expected: {
+                deltaValue: '-100',
+                direction: 'down',
+                percent: -10,
+                previousValue: '1000',
+            },
+            previous: '1,000',
+        },
+        {
+            current: '1,000',
+            expected: {
+                deltaValue: '0',
+                direction: 'neutral',
+                percent: 0,
+                previousValue: '1000',
+            },
+            previous: '1,000',
+        },
+        {
+            current: '10',
+            expected: {
+                deltaValue: '10',
+                direction: 'up',
+                previousValue: '0',
+            },
+            previous: '0',
+        },
+    ])(
+        'resolves $expected.direction metric comparisons',
+        ({current, expected, previous}) => {
+            const rule = parseModalDocumentRule(
+                JSON.stringify({
+                    slots: {
+                        comparison: {
+                            current: {value: current},
+                            previous: {value: previous},
+                        },
+                        title: {value: 'Members'},
+                    },
+                    version: 1,
+                })
+            );
+
+            expect(
+                rule &&
+                    resolveModalDocument(rule, createTrigger({}))?.slots
+                        .comparison
+            ).toEqual(expected);
+        }
+    );
+
+    it('omits a comparison when either value is not an integer', () => {
+        const rule = parseModalDocumentRule(
+            JSON.stringify({
+                slots: {
+                    comparison: {
+                        current: {value: '1,000'},
+                        previous: {value: 'Not available'},
+                    },
+                    title: {value: 'Members'},
+                },
+                version: 1,
+            })
+        );
+
+        expect(
+            rule && resolveModalDocument(rule, createTrigger({}))
+        ).toEqual({
+            slots: {title: 'Members'},
+            version: 1,
+        });
+    });
+
     it('rejects a resolved document when its required title is missing', () => {
         const rule = parseModalDocumentRule(
             JSON.stringify({

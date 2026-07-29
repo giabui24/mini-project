@@ -45,3 +45,7 @@
     line-height: 1.5;
     margin: 4px 0 0;
 }
+
+.nxc-metric-item__modal-data {
+    display: none;
+}

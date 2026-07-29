@@ -134,6 +134,56 @@
     margin: 24px 0 0;
 }
 
+.nxc-global-modal__trend {
+    --nxc-trend-color: var(--nxc-color-muted, #89939e);
+    background: color-mix(
+        in srgb,
+        var(--nxc-trend-color) 10%,
+        transparent
+    );
+    border-left: 3px solid var(--nxc-trend-color);
+    border-radius: 0 8px 8px 0;
+    margin-top: 24px;
+    padding: 14px 16px;
+}
+
+.nxc-global-modal__trend--up {
+    --nxc-trend-color: var(--nxc-color-primary, #4caf4f);
+}
+
+.nxc-global-modal__trend--down {
+    --nxc-trend-color: var(--nxc-style-error, #d32f2f);
+}
+
+.nxc-global-modal__trend-summary {
+    align-items: center;
+    color: var(--nxc-trend-color);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.nxc-global-modal__trend-arrow {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.nxc-global-modal__trend-delta {
+    color: var(--nxc-color-text, #717171);
+    font-size: 14px;
+}
+
+.nxc-global-modal__trend p {
+    color: var(--nxc-color-text, #717171);
+    font-size: 14px;
+    margin: 6px 0 0;
+}
+
+.nxc-global-modal__trend p strong {
+    color: var(--nxc-color-heading, #4d4d4d);
+}
+
 .nxc-global-modal__description {
     font-size: 16px;
     line-height: 1.7;

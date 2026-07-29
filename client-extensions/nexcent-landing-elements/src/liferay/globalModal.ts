@@ -25,9 +25,22 @@ type TextSelectorSource = {
 export type ModalImageSource = DirectImageSource | ImageSelectorSource;
 export type ModalTextSource = DirectTextSource | TextSelectorSource;
 
+export type ModalComparisonSource = {
+    current: ModalTextSource;
+    previous: ModalTextSource;
+};
+
+export type ResolvedModalComparison = {
+    deltaValue: string;
+    direction: 'down' | 'neutral' | 'up';
+    percent?: number;
+    previousValue: string;
+};
+
 export type ModalDocumentRule = {
     id?: string;
     slots: {
+        comparison?: ModalComparisonSource;
         description?: ModalTextSource;
         eyebrow?: ModalTextSource;
         facts?: Array<{
@@ -44,6 +57,7 @@ export type ModalDocumentRule = {
 export type ResolvedModalDocument = {
     id?: string;
     slots: {
+        comparison?: ResolvedModalComparison;
         description?: string;
         eyebrow?: string;
         facts?: Array<{
@@ -138,6 +152,15 @@ export function parseModalDocumentRule(
     }
 
     if (
+        slots.comparison !== undefined &&
+        (!isRecord(slots.comparison) ||
+            !isTextSource(slots.comparison.current) ||
+            !isTextSource(slots.comparison.previous))
+    ) {
+        return null;
+    }
+
+    if (
         slots.facts !== undefined &&
         (!Array.isArray(slots.facts) ||
             !slots.facts.every(
@@ -222,6 +245,64 @@ function resolveImageSource(
     };
 }
 
+function parseIntegerValue(value: string): bigint | null {
+    const normalizedValue = value.replaceAll(',', '').trim();
+
+    if (!/^-?\d+$/.test(normalizedValue)) {
+        return null;
+    }
+
+    try {
+        return BigInt(normalizedValue);
+    }
+    catch {
+        return null;
+    }
+}
+
+function resolveComparison(
+    source: ModalComparisonSource | undefined,
+    trigger: HTMLElement
+): ResolvedModalComparison | undefined {
+    if (!source) {
+        return undefined;
+    }
+
+    const currentText = resolveTextSource(source.current, trigger);
+    const previousText = resolveTextSource(source.previous, trigger);
+
+    if (!currentText || !previousText) {
+        return undefined;
+    }
+
+    const currentValue = parseIntegerValue(currentText);
+    const previousValue = parseIntegerValue(previousText);
+
+    if ((currentValue === null) || (previousValue === null)) {
+        return undefined;
+    }
+
+    const deltaValue = currentValue - previousValue;
+    const direction =
+        deltaValue > 0 ? 'up' : deltaValue < 0 ? 'down' : 'neutral';
+    let percent: number | undefined;
+
+    if (previousValue !== 0n) {
+        const denominator =
+            previousValue < 0n ? -previousValue : previousValue;
+        const scaledPercent = (deltaValue * 10000n) / denominator;
+
+        percent = Number(scaledPercent) / 100;
+    }
+
+    return {
+        deltaValue: deltaValue.toString(),
+        direction,
+        ...(percent === undefined ? {} : {percent}),
+        previousValue: previousValue.toString(),
+    };
+}
+
 export function resolveModalDocument(
     rule: ModalDocumentRule,
     trigger: HTMLElement
@@ -245,6 +326,7 @@ export function resolveModalDocument(
         rule.slots.description,
         trigger
     );
+    const comparison = resolveComparison(rule.slots.comparison, trigger);
     const eyebrow = resolveTextSource(rule.slots.eyebrow, trigger);
     const media = resolveImageSource(rule.slots.media, trigger);
     const primaryValue = resolveTextSource(
@@ -255,6 +337,7 @@ export function resolveModalDocument(
     return {
         ...(rule.id ? {id: rule.id} : {}),
         slots: {
+            ...(comparison ? {comparison} : {}),
             ...(description ? {description} : {}),
             ...(eyebrow ? {eyebrow} : {}),
             ...(facts?.length ? {facts} : {}),
@@ -382,6 +465,21 @@ export function isResolvedModalDocument(
     }
 
     const {slots} = value;
+
+    if (
+        slots.comparison !== undefined &&
+        (!isRecord(slots.comparison) ||
+            typeof slots.comparison.deltaValue !== 'string' ||
+            !['down', 'neutral', 'up'].includes(
+                String(slots.comparison.direction)
+            ) ||
+            (slots.comparison.percent !== undefined &&
+                (typeof slots.comparison.percent !== 'number' ||
+                    !Number.isFinite(slots.comparison.percent))) ||
+            typeof slots.comparison.previousValue !== 'string')
+    ) {
+        return false;
+    }
 
     for (const slotName of [
         'description',

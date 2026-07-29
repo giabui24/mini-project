@@ -10,6 +10,24 @@ import {
 
 import modalCss from './global-modal.css?inline';
 
+const integerFormatter = new Intl.NumberFormat('en-US', {
+    maximumFractionDigits: 0,
+});
+
+function formatInteger(value: string, includePositiveSign = false): string {
+    try {
+        const integerValue = BigInt(value);
+        const formattedValue = integerFormatter.format(integerValue);
+
+        return includePositiveSign && integerValue > 0n
+            ? `+${formattedValue}`
+            : formattedValue;
+    }
+    catch {
+        return value;
+    }
+}
+
 export function GlobalModal() {
     const headingId = useId();
     const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -148,6 +166,53 @@ export function GlobalModal() {
                             <p className="nxc-global-modal__primary-value">
                                 {slots.primaryValue}
                             </p>
+                        ) : null}
+
+                        {slots.comparison ? (
+                            <div
+                                className={`nxc-global-modal__trend nxc-global-modal__trend--${slots.comparison.direction}`}
+                            >
+                                <div className="nxc-global-modal__trend-summary">
+                                    <span
+                                        aria-hidden="true"
+                                        className="nxc-global-modal__trend-arrow"
+                                    >
+                                        {slots.comparison.direction === 'up'
+                                            ? '\u2191'
+                                            : slots.comparison.direction ===
+                                                'down'
+                                              ? '\u2193'
+                                              : '\u2212'}
+                                    </span>
+                                    <strong>
+                                        {slots.comparison.percent === undefined
+                                            ? slots.comparison.direction ===
+                                              'neutral'
+                                                ? 'No change'
+                                                : slots.comparison.direction ===
+                                                    'up'
+                                                  ? 'Increase'
+                                                  : 'Decrease'
+                                            : `${slots.comparison.percent > 0 ? '+' : ''}${slots.comparison.percent.toFixed(2)}%`}
+                                    </strong>
+                                    <span className="nxc-global-modal__trend-delta">
+                                        (
+                                        {formatInteger(
+                                            slots.comparison.deltaValue,
+                                            true
+                                        )}
+                                        )
+                                    </span>
+                                </div>
+                                <p>
+                                    Previous value{' '}
+                                    <strong>
+                                        {formatInteger(
+                                            slots.comparison.previousValue
+                                        )}
+                                    </strong>
+                                </p>
+                            </div>
                         ) : null}
 
                         {slots.description ? (

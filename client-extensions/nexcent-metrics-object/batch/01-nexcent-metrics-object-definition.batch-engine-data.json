@@ -42,6 +42,20 @@
                     "required": true
                 },
                 {
+                    "businessType": "LongInteger",
+                    "indexed": false,
+                    "label": { "en_US": "Metric Numeric Value" },
+                    "name": "metricNumericValue",
+                    "required": false
+                },
+                {
+                    "businessType": "LongInteger",
+                    "indexed": false,
+                    "label": { "en_US": "Previous Metric Value" },
+                    "name": "previousMetricValue",
+                    "required": false
+                },
+                {
                     "businessType": "Attachment",
                     "indexed": false,
                     "label": { "en_US": "Metric Icon" },
