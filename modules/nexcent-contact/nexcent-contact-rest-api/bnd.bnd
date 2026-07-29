@@ -1,0 +1,6 @@
+Bundle-Name: Nexcent Contact REST API
+Bundle-SymbolicName: com.nexcent.contact.rest.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.nexcent.contact.rest.dto.v1_0,\
+	com.nexcent.contact.rest.resource.v1_0

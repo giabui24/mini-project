@@ -1,6 +1,8 @@
 import {
     type ChangeEvent,
     type FocusEvent,
+    useCallback,
+    useEffect,
     useId,
     useState,
 } from 'react';
@@ -28,6 +30,11 @@ type ContactFormValues = {
 };
 
 type ContactFormErrors = Partial<Record<ContactField, string>>;
+
+type CaptchaChallenge = {
+    image: string;
+    token: string;
+};
 
 type LiferayWindow = Window & {
     Liferay?: {
@@ -123,14 +130,27 @@ export function ContactForm({
 }: ContactFormProps) {
     const id = useId();
     const [errors, setErrors] = useState<ContactFormErrors>({});
+    const [captchaAnswer, setCaptchaAnswer] = useState('');
+    const [captchaChallenge, setCaptchaChallenge] =
+        useState<CaptchaChallenge | null>(null);
+    const [captchaError, setCaptchaError] = useState('');
+    const [isCaptchaLoading, setIsCaptchaLoading] = useState(true);
     const [status, setStatus] = useState<
         'error' | 'idle' | 'submitting' | 'success'
     >('idle');
     const [values, setValues] = useState<ContactFormValues>(INITIAL_VALUES);
 
-    const apiPath =
+    const configuredApiPath =
         apiPathProp?.trim() ||
-        readStringSetting(host, 'api-path', '/o/c/nxccontactrequests');
+        readStringSetting(
+            host,
+            'api-path',
+            '/o/nexcent-contact/v1.0/requests'
+        );
+    const apiPath =
+        configuredApiPath === '/o/c/nxccontactrequests'
+            ? '/o/nexcent-contact/v1.0/requests'
+            : configuredApiPath;
     const title =
         titleProp?.trim() || readStringSetting(host, 'title', 'Contact us');
     const description =
@@ -160,6 +180,50 @@ export function ContactForm({
             'error-message',
             'We could not send your message. Please try again.'
         );
+
+    const loadCaptcha = useCallback(async () => {
+        setIsCaptchaLoading(true);
+        setCaptchaAnswer('');
+        setCaptchaError('');
+
+        try {
+            const response = await fetch(
+                '/o/captcha/v1.0/captcha/challenge',
+                {
+                    credentials: 'same-origin',
+                    headers: {Accept: 'application/json'},
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(
+                    `CAPTCHA challenge failed with ${response.status}.`
+                );
+            }
+
+            const challenge = (await response.json()) as CaptchaChallenge;
+
+            if (!challenge.image || !challenge.token) {
+                throw new Error('CAPTCHA challenge is incomplete.');
+            }
+
+            setCaptchaChallenge(challenge);
+        }
+        catch (cause) {
+            console.warn('[Nexcent Contact Form CAPTCHA]', cause);
+            setCaptchaChallenge(null);
+            setCaptchaError(
+                'Text verification could not be loaded. Please refresh it.'
+            );
+        }
+        finally {
+            setIsCaptchaLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        void loadCaptcha();
+    }, [loadCaptcha]);
 
     const updateField = (
         event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -193,8 +257,17 @@ export function ContactForm({
         const nextErrors = validateContactForm(values);
 
         setErrors(nextErrors);
+        setCaptchaError(
+            captchaAnswer.trim() && captchaChallenge
+                ? ''
+                : 'Enter the text shown in the verification image.'
+        );
 
-        if (Object.keys(nextErrors).length > 0) {
+        if (
+            Object.keys(nextErrors).length > 0 ||
+            !captchaAnswer.trim() ||
+            !captchaChallenge
+        ) {
             setStatus('idle');
             return;
         }
@@ -222,6 +295,8 @@ export function ContactForm({
             const response = await fetch(apiURL, {
                 body: JSON.stringify({
                     contactDetails: values.contactDetails.trim(),
+                    captchaAnswer: captchaAnswer.trim(),
+                    captchaToken: captchaChallenge.token,
                     emailAddress: values.emailAddress.trim(),
                     firstName: values.firstName.trim(),
                     lastName: values.lastName.trim(),
@@ -244,9 +319,14 @@ export function ContactForm({
             setValues(INITIAL_VALUES);
             setErrors({});
             setStatus('success');
+            await loadCaptcha();
         }
         catch (cause) {
             console.warn('[Nexcent Contact Form]', cause);
+            await loadCaptcha();
+            setCaptchaError(
+                'Text verification was incorrect or expired. Please try again.'
+            );
             setStatus('error');
         }
     };
@@ -365,10 +445,89 @@ export function ContactForm({
                             ) : null}
                         </div>
 
+                        <div className="nxc-contact__captcha">
+                            <div className="nxc-contact__captcha-challenge">
+                                {captchaChallenge ? (
+                                    <img
+                                        alt="Text verification challenge"
+                                        height={50}
+                                        src={captchaChallenge.image}
+                                        width={150}
+                                    />
+                                ) : (
+                                    <span aria-live="polite">
+                                        {isCaptchaLoading
+                                            ? 'Loading text verification…'
+                                            : 'Text verification unavailable.'}
+                                    </span>
+                                )}
+
+                                <button
+                                    aria-label="Refresh text verification"
+                                    className="nxc-contact__captcha-refresh"
+                                    disabled={
+                                        isCaptchaLoading ||
+                                        status === 'submitting'
+                                    }
+                                    onClick={() => void loadCaptcha()}
+                                    type="button"
+                                >
+                                    Refresh
+                                </button>
+                            </div>
+
+                            <div className="nxc-contact__field">
+                                <label htmlFor={`${id}-captchaAnswer`}>
+                                    Text verification{' '}
+                                    <span className="nxc-contact__required">
+                                        *
+                                    </span>
+                                </label>
+                                <input
+                                    aria-describedby={
+                                        captchaError
+                                            ? `${id}-captchaAnswer-error`
+                                            : undefined
+                                    }
+                                    aria-invalid={
+                                        captchaError ? true : undefined
+                                    }
+                                    autoComplete="off"
+                                    disabled={
+                                        isCaptchaLoading || !captchaChallenge
+                                    }
+                                    id={`${id}-captchaAnswer`}
+                                    name="captchaAnswer"
+                                    onChange={(event) => {
+                                        setCaptchaAnswer(
+                                            event.currentTarget.value
+                                        );
+
+                                        if (captchaError) {
+                                            setCaptchaError('');
+                                        }
+                                    }}
+                                    value={captchaAnswer}
+                                />
+                                {captchaError ? (
+                                    <p
+                                        className="nxc-contact__error"
+                                        id={`${id}-captchaAnswer-error`}
+                                    >
+                                        {captchaError}
+                                    </p>
+                                ) : null}
+                            </div>
+                        </div>
+
                         <div className="nxc-contact__actions">
                             <button
                                 className="nxc-button nxc-button--primary nxc-contact__submit"
-                                disabled={status === 'submitting'}
+                                disabled={
+                                    status === 'submitting' ||
+                                    isCaptchaLoading ||
+                                    !captchaChallenge
+                                }
                                 onClick={handleSubmit}
                                 type="button"
                             >

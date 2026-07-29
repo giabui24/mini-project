@@ -1,0 +1,8 @@
+apiDir: "../nexcent-contact-rest-api/src/main/java"
+apiPackagePath: "com.nexcent.contact.rest"
+application:
+    baseURI: "/nexcent-contact"
+    className: "NexcentContactApplication"
+    name: "Liferay.Nexcent.Contact"
+author: "Nexcent"
+javaEEPackage: "jakarta"
