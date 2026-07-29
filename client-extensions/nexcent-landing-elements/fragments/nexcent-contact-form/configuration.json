@@ -18,7 +18,7 @@
                 },
                 {
                     "dataType": "string",
-                    "defaultValue": "/o/c/nxccontactrequests",
+                    "defaultValue": "/o/nexcent-contact/v1.0/requests",
                     "label": "API path",
                     "name": "apiPath",
                     "type": "text",

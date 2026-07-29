@@ -2,6 +2,8 @@
     background: var(--nxc-color-surface, #f5f7fa);
     color: var(--nxc-color-text);
     font-family: var(--nxc-font-family, Inter, system-ui, sans-serif);
+    max-width: 100%;
+    overflow: hidden;
     width: 100%;
 
     &__container {
@@ -11,7 +13,9 @@
         grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
         margin: 0 auto;
         max-width: var(--nxc-container-width, 72rem);
+        min-width: 0;
         padding: clamp(3rem, 8vw, 6rem) clamp(1.25rem, 5vw, 3rem);
+        width: 100%;
     }
 
     &__eyebrow {
@@ -50,6 +54,8 @@
         box-shadow: 0 2px 4px rgb(171 190 209 / 20%);
         display: grid;
         gap: 20px;
+        max-width: 100%;
+        min-width: 0;
         padding: clamp(24px, 4vw, 32px);
     }
 
@@ -136,6 +142,60 @@
         display: flex;
         flex-wrap: wrap;
         gap: 16px;
+    }
+
+    &__captcha {
+        display: grid;
+        gap: 12px;
+        min-width: 0;
+    }
+
+    &__captcha-challenge {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        min-height: 50px;
+
+        img {
+            border: 1px solid var(--nxc-color-border, #abbed1);
+            display: block;
+            height: 50px;
+            max-width: 100%;
+            object-fit: contain;
+            width: 150px;
+        }
+
+        span {
+            color: var(--nxc-color-muted, #717171);
+            font-size: 14px;
+        }
+    }
+
+    &__captcha-refresh {
+        appearance: none;
+        background: transparent;
+        border: 0;
+        color: var(--nxc-color-primary, #4caf4f);
+        cursor: pointer;
+        font: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 8px;
+
+        &:hover:not(:disabled) {
+            text-decoration: underline;
+        }
+
+        &:focus-visible {
+            border-radius: 4px;
+            outline: 3px solid rgb(76 175 79 / 30%);
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+            opacity: 0.55;
+        }
     }
 
     &__submit {
@@ -276,13 +336,47 @@
             grid-template-columns: 1fr;
         }
 
+        &__container {
+            gap: 32px;
+            padding: 48px 20px;
+        }
+
+        &__form {
+            padding: 24px;
+        }
+
         &__intro {
             max-width: none;
             text-align: center;
         }
 
+        &__intro h2 {
+            font-size: 40px;
+        }
+
         &__submit {
             width: 100%;
+        }
+    }
+}
+
+@media (max-width: 30rem) {
+    .nxc-contact {
+        &__container {
+            padding-inline: 16px;
+        }
+
+        &__form {
+            padding: 20px;
+        }
+
+        &__captcha-challenge {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        &__captcha-refresh {
+            padding: 4px 0;
         }
     }
 }

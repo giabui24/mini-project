@@ -4,7 +4,7 @@ import {ContactForm} from './ContactForm';
 
 const meta = {
     args: {
-        apiPath: '/o/c/nxccontactrequests',
+        apiPath: '/o/nexcent-contact/v1.0/requests',
         description:
             'Tell us what you are working on and our team will get back to you.',
         errorMessage: 'We could not send your message. Please try again.',

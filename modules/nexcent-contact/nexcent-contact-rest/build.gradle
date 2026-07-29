@@ -1,0 +1,23 @@
+buildscript {
+	dependencies {
+		classpath group: "com.liferay", name: "com.liferay.gradle.plugins.rest.builder", version: "1.1.32"
+	}
+
+	repositories {
+		maven {
+			url "https://repository-cdn.liferay.com/nexus/content/groups/public"
+		}
+	}
+}
+
+apply plugin: "com.liferay.portal.tools.rest.builder"
+
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
+	compileOnly project(":modules:nexcent-contact:nexcent-contact-api")
+	compileOnly project(":modules:nexcent-contact:nexcent-contact-rest-api")
+
+	testImplementation group: "com.liferay.portal", name: "release.dxp.api"
+	testImplementation group: "junit", name: "junit", version: "4.13.2"
+	testImplementation project(":modules:nexcent-contact:nexcent-contact-rest-api")
+}
