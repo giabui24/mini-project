@@ -15,7 +15,6 @@
             "metricKey": "members",
             "metricLabel": "Members",
             "metricValue": "2245341",
-            "metricIconURL": "",
             "metricIconAlt": "Members",
             "snapshotDate": "2026-07-29T00:00:00Z"
         },
@@ -24,7 +23,6 @@
             "metricKey": "clubs",
             "metricLabel": "Clubs",
             "metricValue": "46328",
-            "metricIconURL": "",
             "metricIconAlt": "Clubs",
             "snapshotDate": "2026-07-29T00:00:00Z"
         },
@@ -33,7 +31,6 @@
             "metricKey": "eventBookings",
             "metricLabel": "Event Bookings",
             "metricValue": "828867",
-            "metricIconURL": "",
             "metricIconAlt": "Event bookings",
             "snapshotDate": "2026-07-29T00:00:00Z"
         },
@@ -42,7 +39,6 @@
             "metricKey": "payments",
             "metricLabel": "Payments",
             "metricValue": "1926436",
-            "metricIconURL": "",
             "metricIconAlt": "Payments",
             "snapshotDate": "2026-07-29T00:00:00Z"
         }

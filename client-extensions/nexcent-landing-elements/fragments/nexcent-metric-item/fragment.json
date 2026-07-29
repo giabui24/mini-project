@@ -3,6 +3,6 @@
     "cssPath": "index.css",
     "htmlPath": "index.html",
     "jsPath": "index.js",
-    "name": "Nexcent Metrics Collection",
+    "name": "Nexcent Metric Item",
     "type": "component"
 }

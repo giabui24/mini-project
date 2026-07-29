@@ -42,10 +42,24 @@
                     "required": true
                 },
                 {
-                    "businessType": "Text",
+                    "businessType": "Attachment",
                     "indexed": false,
-                    "label": { "en_US": "Metric Icon URL" },
-                    "name": "metricIconURL",
+                    "label": { "en_US": "Metric Icon" },
+                    "name": "metricIcon",
+                    "objectFieldSettings": [
+                        {
+                            "name": "acceptedFileExtensions",
+                            "value": "jpg,jpeg,png,svg,webp"
+                        },
+                        {
+                            "name": "fileSource",
+                            "value": "documentsAndMedia"
+                        },
+                        {
+                            "name": "maximumFileSize",
+                            "value": "5"
+                        }
+                    ],
                     "required": false
                 },
                 {
