@@ -1,7 +1,7 @@
 import React, {type ReactNode} from 'react';
 import {createRoot, type Root} from 'react-dom/client';
 
-import {ContactForm} from './components/ContactForm/ContactForm';
+import {ContactForm} from './components/organisms/ContactForm/ContactForm';
 import {registerStaticElements} from './landing/registerStaticElements';
 
 type ElementRenderer = (element: HTMLElement) => ReactNode;

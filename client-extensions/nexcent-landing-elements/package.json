@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "vite build && npm run package:fragments",
-    "build:contact-fragment": "sass --no-source-map src/components/ContactForm/contact-form.scss fragments/nexcent-contact-form/index.css",
+    "build:contact-fragment": "sass --no-source-map src/components/organisms/ContactForm/contact-form.scss fragments/nexcent-contact-form/index.css",
     "dev": "vite",
     "package:fragments": "npm run build:contact-fragment && node scripts/package-fragments.mjs",
     "storybook": "storybook dev -p 6006",

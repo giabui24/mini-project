@@ -1,16 +1,16 @@
 import React, {type ReactNode} from 'react';
 import {createRoot, type Root} from 'react-dom/client';
 
-import {StaticClients} from '../components/Clients/Clients';
-import {StaticCommunity} from '../components/Community/Community';
-import {StaticCta} from '../components/Cta/Cta';
-import {StaticFeature} from '../components/Feature/Feature';
-import {StaticFooter} from '../components/Footer/Footer';
-import {StaticHeader} from '../components/Header/Header';
-import {StaticHero} from '../components/Hero/Hero';
-import {StaticMarketing} from '../components/Marketing/Marketing';
-import {StaticStatistics} from '../components/Statistics/Statistics';
-import {StaticTestimonial} from '../components/Testimonial/Testimonial';
+import {StaticClients} from '../components/organisms/Clients/Clients';
+import {StaticCommunity} from '../components/organisms/Community/Community';
+import {StaticCta} from '../components/organisms/Cta/Cta';
+import {StaticFeature} from '../components/organisms/Feature/Feature';
+import {StaticFooter} from '../components/organisms/Footer/Footer';
+import {StaticHeader} from '../components/organisms/Header/Header';
+import {StaticHero} from '../components/organisms/Hero/Hero';
+import {StaticMarketing} from '../components/organisms/Marketing/Marketing';
+import {StaticStatistics} from '../components/organisms/Statistics/Statistics';
+import {StaticTestimonial} from '../components/organisms/Testimonial/Testimonial';
 import {StaticRuntimeOverrides} from './shell/StaticRuntimeOverrides';
 import {StaticStyleBoundary} from './shell/StaticStyleBoundary';
 
