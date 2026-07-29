@@ -1,0 +1,92 @@
+{
+    "configuration": {
+        "className": "com.liferay.object.admin.rest.dto.v1_0.ObjectDefinition",
+        "parameters": {
+            "containsHeaders": "true",
+            "createStrategy": "UPSERT",
+            "onErrorFail": "false",
+            "updateStrategy": "UPDATE"
+        },
+        "taskItemDelegateName": "DEFAULT"
+    },
+    "items": [
+        {
+            "active": true,
+            "defaultLanguageId": "en_US",
+            "externalReferenceCode": "NXC_METRIC_SNAPSHOT",
+            "label": {
+                "en_US": "NXC Metric Snapshot"
+            },
+            "name": "NXCMetricsSnapshot",
+            "objectFields": [
+                {
+                    "businessType": "Text",
+                    "indexed": true,
+                    "indexedAsKeyword": false,
+                    "label": { "en_US": "Metric Key" },
+                    "name": "metricKey",
+                    "required": true
+                },
+                {
+                    "businessType": "Text",
+                    "indexed": false,
+                    "label": { "en_US": "Metric Label" },
+                    "name": "metricLabel",
+                    "required": true
+                },
+                {
+                    "businessType": "Text",
+                    "indexed": false,
+                    "label": { "en_US": "Metric Value" },
+                    "name": "metricValue",
+                    "required": true
+                },
+                {
+                    "businessType": "Attachment",
+                    "indexed": false,
+                    "label": { "en_US": "Metric Icon" },
+                    "name": "metricIcon",
+                    "objectFieldSettings": [
+                        {
+                            "name": "acceptedFileExtensions",
+                            "value": "jpg,jpeg,png,svg,webp"
+                        },
+                        {
+                            "name": "fileSource",
+                            "value": "documentsAndMedia"
+                        },
+                        {
+                            "name": "maximumFileSize",
+                            "value": "5"
+                        }
+                    ],
+                    "required": false
+                },
+                {
+                    "businessType": "Text",
+                    "indexed": false,
+                    "label": { "en_US": "Metric Icon Alt" },
+                    "name": "metricIconAlt",
+                    "required": false
+                },
+                {
+                    "businessType": "Date",
+                    "indexed": false,
+                    "label": { "en_US": "Snapshot Date" },
+                    "name": "snapshotDate",
+                    "required": false
+                }
+            ],
+            "panelCategoryKey": "control_panel.object",
+            "pluralLabel": { "en_US": "NXC Metric Snapshots" },
+            "restContextPath": "/o/c/nxcmetricssnapshots",
+            "scope": "company",
+            "status": {
+                "code": 0,
+                "label": "approved",
+                "label_i18n": "Approved"
+            },
+            "titleObjectFieldName": "metricKey"
+        }
+    ]
+}

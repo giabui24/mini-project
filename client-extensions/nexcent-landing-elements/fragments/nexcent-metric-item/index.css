@@ -1,0 +1,36 @@
+.nxc-metric-item {
+    align-items: center;
+    color: var(--nxc-color-text, #717171);
+    display: flex;
+    font-family: var(--nxc-font-family, Inter, system-ui, sans-serif);
+    gap: 16px;
+    justify-content: flex-start;
+    min-width: 0;
+    width: 100%;
+}
+
+.nxc-metric-item__icon {
+    flex-shrink: 0;
+    height: 48px;
+    object-fit: contain;
+    width: 48px;
+}
+
+.nxc-metric-item__info {
+    min-width: 0;
+}
+
+.nxc-metric-item__value {
+    color: var(--nxc-color-heading, #4d4d4d);
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.28;
+    margin: 0;
+}
+
+.nxc-metric-item__label {
+    color: var(--nxc-color-text, #717171);
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 4px 0 0;
+}

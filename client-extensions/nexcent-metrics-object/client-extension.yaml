@@ -1,0 +1,17 @@
+assemble:
+    - from: batch
+      into: batch
+
+nexcent-metrics-object:
+    name: Nexcent Metrics Object
+    oAuthApplicationHeadlessServer: nexcent-metrics-object-oauth
+    type: batch
+
+nexcent-metrics-object-oauth:
+    .serviceAddress: localhost:8080
+    .serviceScheme: http
+    name: Nexcent Metrics Object OAuth
+    scopes:
+        - Liferay.Headless.Batch.Engine.everything
+        - Liferay.Object.Admin.REST.everything
+    type: oAuthApplicationHeadlessServer
