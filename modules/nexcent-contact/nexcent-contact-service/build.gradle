@@ -1,8 +1,0 @@
-buildService {
-	apiDir = "../nexcent-contact-api/src/main/java"
-}
-
-dependencies {
-	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
-	compileOnly project(":modules:nexcent-contact:nexcent-contact-api")
-}

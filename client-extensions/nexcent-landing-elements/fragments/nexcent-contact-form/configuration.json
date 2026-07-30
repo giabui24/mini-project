@@ -15,20 +15,6 @@
                     "label": "Description",
                     "name": "description",
                     "type": "text"
-                },
-                {
-                    "dataType": "string",
-                    "defaultValue": "/o/nexcent-contact/v1.0/requests",
-                    "label": "API path",
-                    "name": "apiPath",
-                    "type": "text",
-                    "typeOptions": {
-                        "validation": {
-                            "errorMessage": "Enter a same-origin API path beginning with /.",
-                            "regexp": "^/.*",
-                            "type": "pattern"
-                        }
-                    }
                 }
             ],
             "label": "Contact form"

@@ -1,8 +1,0 @@
-Bundle-Name: Nexcent Contact API
-Bundle-SymbolicName: com.nexcent.contact.api
-Bundle-Version: 1.0.0
-Export-Package:\
-	com.nexcent.contact.exception,\
-	com.nexcent.contact.model,\
-	com.nexcent.contact.service,\
-	com.nexcent.contact.service.persistence

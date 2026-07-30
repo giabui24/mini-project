@@ -4,23 +4,17 @@ import {ContactForm} from './ContactForm';
 
 const meta = {
     args: {
-        apiPath: '/o/nexcent-contact/v1.0/requests',
         description:
             'Tell us what you are working on and our team will get back to you.',
         errorMessage: 'We could not send your message. Please try again.',
         submitLabel: 'Submit',
-        submittingText: 'Sending…',
+        submittingText: 'Sending...',
         successMessage: 'Thanks! Your message has been sent.',
         title: 'Contact us',
     },
     argTypes: {
-        apiPath: {
-            control: 'text',
-            description: 'Same-origin Liferay API endpoint.',
-        },
         description: {control: 'text'},
         errorMessage: {control: 'text'},
-        host: {table: {disable: true}},
         submitLabel: {control: 'text'},
         submittingText: {control: 'text'},
         successMessage: {control: 'text'},
@@ -31,7 +25,7 @@ const meta = {
         docs: {
             description: {
                 component:
-                    'Production Contact Us form used by the Nexcent Liferay Fragment. Use Controls to preview the Fragment configuration values.',
+                    'Production Contact Us form whose props are mapped from the Nexcent Liferay Fragment configuration.',
             },
         },
     },
