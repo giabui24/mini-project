@@ -10,14 +10,12 @@ import {
 import './contact-form.scss';
 
 export type ContactFormProps = {
-    apiPath?: string;
-    description?: string;
-    errorMessage?: string;
-    host?: HTMLElement;
-    submitLabel?: string;
-    submittingText?: string;
-    successMessage?: string;
-    title?: string;
+    description: string;
+    errorMessage: string;
+    submitLabel: string;
+    submittingText: string;
+    successMessage: string;
+    title: string;
 };
 
 type ContactField = keyof ContactFormValues;
@@ -51,14 +49,7 @@ const INITIAL_VALUES: ContactFormValues = {
 
 const NAME_PATTERN = /^[\p{L}\p{M}][\p{L}\p{M}' -]*$/u;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-function readStringSetting(
-    host: HTMLElement | undefined,
-    name: string,
-    fallback: string
-) {
-    return host?.getAttribute(name)?.trim() || fallback;
-}
+const CONTACT_REQUEST_API_PATH = '/o/nexcent-contact/v1.0/requests';
 
 export function validateContactField(
     field: ContactField,
@@ -119,14 +110,12 @@ function validateContactForm(values: ContactFormValues): ContactFormErrors {
 }
 
 export function ContactForm({
-    apiPath: apiPathProp,
-    description: descriptionProp,
-    errorMessage: errorMessageProp,
-    host,
-    submitLabel: submitLabelProp,
-    submittingText: submittingTextProp,
-    successMessage: successMessageProp,
-    title: titleProp,
+    description,
+    errorMessage,
+    submitLabel,
+    submittingText,
+    successMessage,
+    title,
 }: ContactFormProps) {
     const id = useId();
     const [errors, setErrors] = useState<ContactFormErrors>({});
@@ -139,47 +128,6 @@ export function ContactForm({
         'error' | 'idle' | 'submitting' | 'success'
     >('idle');
     const [values, setValues] = useState<ContactFormValues>(INITIAL_VALUES);
-
-    const configuredApiPath =
-        apiPathProp?.trim() ||
-        readStringSetting(
-            host,
-            'api-path',
-            '/o/nexcent-contact/v1.0/requests'
-        );
-    const apiPath =
-        configuredApiPath === '/o/c/nxccontactrequests'
-            ? '/o/nexcent-contact/v1.0/requests'
-            : configuredApiPath;
-    const title =
-        titleProp?.trim() || readStringSetting(host, 'title', 'Contact us');
-    const description =
-        descriptionProp?.trim() ||
-        readStringSetting(
-            host,
-            'description',
-            'Tell us what you are working on and our team will get back to you.'
-        );
-    const submitLabel =
-        submitLabelProp?.trim() ||
-        readStringSetting(host, 'submit-label', 'Submit');
-    const submittingText =
-        submittingTextProp?.trim() ||
-        readStringSetting(host, 'submitting-text', 'Sending…');
-    const successMessage =
-        successMessageProp?.trim() ||
-        readStringSetting(
-            host,
-            'success-message',
-            'Thanks! Your message has been sent.'
-        );
-    const errorMessage =
-        errorMessageProp?.trim() ||
-        readStringSetting(
-            host,
-            'error-message',
-            'We could not send your message. Please try again.'
-        );
 
     const loadCaptcha = useCallback(async () => {
         setIsCaptchaLoading(true);
@@ -272,27 +220,12 @@ export function ContactForm({
             return;
         }
 
-        let apiURL: URL;
-
-        try {
-            apiURL = new URL(apiPath, window.location.origin);
-
-            if (apiURL.origin !== window.location.origin) {
-                throw new Error('Contact API must use the current origin.');
-            }
-        }
-        catch (cause) {
-            console.warn('[Nexcent Contact Form]', cause);
-            setStatus('error');
-            return;
-        }
-
         setStatus('submitting');
 
         const authToken = (window as LiferayWindow).Liferay?.authToken;
 
         try {
-            const response = await fetch(apiURL, {
+            const response = await fetch(CONTACT_REQUEST_API_PATH, {
                 body: JSON.stringify({
                     contactDetails: values.contactDetails.trim(),
                     captchaAnswer: captchaAnswer.trim(),
@@ -311,8 +244,13 @@ export function ContactForm({
             });
 
             if (!response.ok) {
+                const error = (await response.json().catch(() => null)) as {
+                    title?: string;
+                } | null;
+
                 throw new Error(
-                    `Contact request failed with ${response.status}.`
+                    error?.title ||
+                        `Contact request failed with ${response.status}.`
                 );
             }
 
@@ -325,7 +263,9 @@ export function ContactForm({
             console.warn('[Nexcent Contact Form]', cause);
             await loadCaptcha();
             setCaptchaError(
-                'Text verification was incorrect or expired. Please try again.'
+                cause instanceof Error
+                    ? cause.message
+                    : 'The request could not be submitted. Please try again.'
             );
             setStatus('error');
         }

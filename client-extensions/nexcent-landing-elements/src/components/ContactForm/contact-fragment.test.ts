@@ -14,19 +14,24 @@ const fragmentDirectory = path.join(
 );
 
 describe('Nexcent Contact Form fragment', () => {
-    it('owns the stylesheet required by its light-DOM custom element', () => {
+    it('uses the stylesheet injected by the global JavaScript bundle', () => {
         const definition = JSON.parse(
             readFileSync(path.join(fragmentDirectory, 'fragment.json'), 'utf8')
         ) as {cssPath?: string};
-
-        expect(definition.cssPath).toBe('index.css');
-
-        const css = readFileSync(
-            path.join(fragmentDirectory, definition.cssPath ?? ''),
+        const html = readFileSync(
+            path.join(fragmentDirectory, 'index.html'),
+            'utf8'
+        );
+        const component = readFileSync(
+            path.join(
+                packageDirectory,
+                'src/components/ContactForm/ContactForm.tsx'
+            ),
             'utf8'
         );
 
-        expect(css).toContain('.nxc-contact');
-        expect(css).toContain('.nxc-contact .nxc-button--primary');
+        expect(definition.cssPath).toBeUndefined();
+        expect(html).not.toContain('rel="stylesheet"');
+        expect(component).toContain("import './contact-form.scss';");
     });
 });

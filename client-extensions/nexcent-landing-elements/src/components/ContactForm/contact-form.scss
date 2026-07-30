@@ -1,4 +1,8 @@
-.nxc-contact {
+nexcent-contact-form {
+    display: block;
+}
+
+nexcent-contact-form .nxc-contact {
     background: var(--nxc-color-surface, #f5f7fa);
     color: var(--nxc-color-text);
     font-family: var(--nxc-font-family, Inter, system-ui, sans-serif);
@@ -330,7 +334,7 @@
 }
 
 @media (max-width: 767.98px) {
-    .nxc-contact {
+    nexcent-contact-form .nxc-contact {
         &__container,
         &__row {
             grid-template-columns: 1fr;
@@ -361,7 +365,7 @@
 }
 
 @media (max-width: 30rem) {
-    .nxc-contact {
+    nexcent-contact-form .nxc-contact {
         &__container {
             padding-inline: 16px;
         }

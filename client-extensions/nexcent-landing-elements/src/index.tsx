@@ -1,7 +1,7 @@
 import React, {type ReactNode} from 'react';
 import {createRoot, type Root} from 'react-dom/client';
 
-import {ContactForm} from './components/ContactForm/ContactForm';
+import {fragmentComponentMappings} from './mapping';
 import {registerStaticElements} from './static-site/registerStaticElements';
 
 type ElementRenderer = (element: HTMLElement) => ReactNode;
@@ -34,8 +34,8 @@ function registerReactElement(name: string, renderer: ElementRenderer) {
     customElements.define(name, LiferayReactElement);
 }
 
-registerReactElement('nexcent-contact-form', (element) => (
-    <ContactForm host={element} />
-));
+fragmentComponentMappings.forEach(({elementName, render}) => {
+    registerReactElement(elementName, render);
+});
 
 registerStaticElements();

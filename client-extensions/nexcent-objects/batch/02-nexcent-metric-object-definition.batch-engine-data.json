@@ -14,71 +14,61 @@
             "active": true,
             "defaultLanguageId": "en_US",
             "externalReferenceCode": "NXC_METRIC_SNAPSHOT",
-            "label": {
-                "en_US": "NXC Metric Snapshot"
-            },
+            "label": {"en_US": "NXC Metric Snapshot"},
             "name": "NXCMetricsSnapshot",
             "objectFields": [
                 {
                     "businessType": "Text",
                     "indexed": true,
                     "indexedAsKeyword": false,
-                    "label": { "en_US": "Metric Key" },
+                    "label": {"en_US": "Metric Key"},
                     "name": "metricKey",
                     "required": true
                 },
                 {
                     "businessType": "Text",
                     "indexed": false,
-                    "label": { "en_US": "Metric Label" },
+                    "label": {"en_US": "Metric Label"},
                     "name": "metricLabel",
                     "required": true
                 },
                 {
                     "businessType": "Text",
                     "indexed": false,
-                    "label": { "en_US": "Metric Value" },
+                    "label": {"en_US": "Metric Value"},
                     "name": "metricValue",
                     "required": true
                 },
                 {
                     "businessType": "Attachment",
                     "indexed": false,
-                    "label": { "en_US": "Metric Icon" },
+                    "label": {"en_US": "Metric Icon"},
                     "name": "metricIcon",
                     "objectFieldSettings": [
-                        {
-                            "name": "acceptedFileExtensions",
-                            "value": "jpg,jpeg,png,svg,webp"
-                        },
-                        {
-                            "name": "fileSource",
-                            "value": "documentsAndMedia"
-                        },
-                        {
-                            "name": "maximumFileSize",
-                            "value": "5"
-                        }
+                        {"name": "acceptedFileExtensions", "value": "jpg,jpeg,png,svg,webp"},
+                        {"name": "fileSource", "value": "documentsAndMedia"},
+                        {"name": "maximumFileSize", "value": "5"}
                     ],
                     "required": false
                 },
                 {
                     "businessType": "Text",
                     "indexed": false,
-                    "label": { "en_US": "Metric Icon Alt" },
+                    "label": {"en_US": "Metric Icon Alt"},
                     "name": "metricIconAlt",
                     "required": false
                 },
                 {
                     "businessType": "Date",
                     "indexed": false,
-                    "label": { "en_US": "Snapshot Date" },
+                    "label": {"en_US": "Snapshot Date"},
                     "name": "snapshotDate",
                     "required": false
                 }
             ],
+            "objectFolderExternalReferenceCode": "NXC_OBJECTS",
             "panelCategoryKey": "control_panel.object",
-            "pluralLabel": { "en_US": "NXC Metric Snapshots" },
+            "pluralLabel": {"en_US": "NXC Metric Snapshots"},
             "restContextPath": "/o/c/nxcmetricssnapshots",
             "scope": "company",
             "status": {
