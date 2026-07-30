@@ -51,6 +51,25 @@ export function StaticTestimonial({host}: HostProps) {
     );
     const linkTarget = readStringSetting(host, 'link-target', '_self');
     const showPartnerLogos = readBooleanSetting(host, 'show-partner-logos', true);
+    const modalRule = JSON.stringify({
+        id: 'featured-customer-story',
+        slots: {
+            description: {value: quote},
+            eyebrow: {value: 'Customer story'},
+            facts: [
+                {
+                    label: {value: 'Customer'},
+                    value: {value: author},
+                },
+            ],
+            media: {
+                alt: imageAlt,
+                url: imageURL,
+            },
+            title: {value: organization},
+        },
+        version: 1,
+    });
 
     return (
         <section className="customers" id="testimonial">
@@ -76,7 +95,9 @@ export function StaticTestimonial({host}: HostProps) {
                             ) : null}
                             <div className="customers__btn">
                                 <a
+                                    aria-haspopup="dialog"
                                     className="btn__wrapper"
+                                    data-nxc-modal={modalRule}
                                     href={linkHref}
                                     target={linkTarget || undefined}
                                 >

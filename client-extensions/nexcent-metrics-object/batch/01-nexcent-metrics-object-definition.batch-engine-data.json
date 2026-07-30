@@ -35,11 +35,18 @@
                     "required": true
                 },
                 {
-                    "businessType": "Text",
+                    "businessType": "LongInteger",
                     "indexed": false,
                     "label": { "en_US": "Metric Value" },
                     "name": "metricValue",
                     "required": true
+                },
+                {
+                    "businessType": "LongInteger",
+                    "indexed": false,
+                    "label": { "en_US": "Previous Metric Value" },
+                    "name": "previousMetricValue",
+                    "required": false
                 },
                 {
                     "businessType": "Attachment",

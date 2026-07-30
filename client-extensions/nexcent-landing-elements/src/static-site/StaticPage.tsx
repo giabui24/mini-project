@@ -1,3 +1,4 @@
+import {GlobalModal} from '../components/GlobalModal/GlobalModal';
 import {StaticClients} from './sections/Clients';
 import {StaticCommunity} from './sections/Community';
 import {StaticCta} from './sections/Cta';
@@ -25,6 +26,7 @@ export function StaticPage() {
                 <StaticCta />
             </main>
             <StaticFooter />
+            <GlobalModal />
         </div>
     );
 }

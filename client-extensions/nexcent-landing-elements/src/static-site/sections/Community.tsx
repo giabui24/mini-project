@@ -17,6 +17,16 @@ type HostProps = {
     host?: HTMLElement;
 };
 
+const COMMUNITY_MODAL_RULE = JSON.stringify({
+    slots: {
+        description: {read: 'text', selector: '.community__description'},
+        eyebrow: {value: 'Community solution'},
+        media: {read: 'image', selector: '.community__icon img'},
+        title: {read: 'text', selector: 'h3'},
+    },
+    version: 1,
+});
+
 type CommunityItem = {
     description: string;
     imageAlt: string;
@@ -100,13 +110,21 @@ export function StaticCommunity({host}: HostProps) {
 
                 <div className="community__items mt">
                     {items.map((item, index) => (
-                        <article className="community__item" key={`${item.title}-${index}`}>
+                        <button
+                            aria-haspopup="dialog"
+                            className="community__item nxc-modal-trigger-card"
+                            data-nxc-modal={COMMUNITY_MODAL_RULE}
+                            key={`${item.title}-${index}`}
+                            type="button"
+                        >
                             <div className="community__icon">
                                 <img src={item.imageURL} alt={item.imageAlt} />
                             </div>
                             <h3>{item.title}</h3>
-                            <p>{item.description}</p>
-                        </article>
+                            <p className="community__description">
+                                {item.description}
+                            </p>
+                        </button>
                     ))}
                 </div>
 

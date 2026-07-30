@@ -47,7 +47,7 @@ public class NexcentMetricsDispatchTaskExecutor
             dispatchTrigger.getDispatchTaskSettingsUnicodeProperties();
 
         double minimumGrowthPercent = GetterUtil.getDouble(
-            settings.getProperty("minimumGrowthPercent"), 1);
+            settings.getProperty("minimumGrowthPercent"), -10);
         double maximumGrowthPercent = GetterUtil.getDouble(
             settings.getProperty("maximumGrowthPercent"), 10);
 
@@ -112,7 +112,8 @@ public class NexcentMetricsDispatchTaskExecutor
         }
 
         try {
-            return Long.parseLong(metricValue.toString().replace(",", ""));
+            return Long.parseLong(
+                metricValue.toString().replace(",", "").trim());
         }
         catch (NumberFormatException numberFormatException) {
             throw new IllegalArgumentException(
@@ -144,10 +145,12 @@ public class NexcentMetricsDispatchTaskExecutor
         long currentValue = _getMetricValue(values, externalReferenceCode);
         double growthPercent = ThreadLocalRandom.current().nextDouble(
             minimumGrowthPercent, Math.nextUp(maximumGrowthPercent));
-        long updatedValue = Math.round(
-            currentValue * (1 + (growthPercent / 100)));
+        long updatedValue = Math.max(
+            0,
+            Math.round(currentValue * (1 + (growthPercent / 100))));
 
-        values.put("metricValue", String.valueOf(updatedValue));
+        values.put("metricValue", updatedValue);
+        values.put("previousMetricValue", currentValue);
         values.put("snapshotDate", LocalDate.now());
 
         ServiceContext serviceContext = new ServiceContext();
@@ -168,9 +171,10 @@ public class NexcentMetricsDispatchTaskExecutor
         output.append(currentValue);
         output.append(" -> ");
         output.append(updatedValue);
-        output.append(" (+");
-        output.append(String.format(Locale.ROOT, "%.2f", growthPercent));
-        output.append("%)");
+        output.append(" (");
+        output.append(
+            String.format(Locale.ROOT, "%+.2f%%", growthPercent));
+        output.append(")");
     }
 
     private void _validateGrowthRange(
@@ -178,12 +182,13 @@ public class NexcentMetricsDispatchTaskExecutor
 
         if (!Double.isFinite(minimumGrowthPercent) ||
             !Double.isFinite(maximumGrowthPercent) ||
-            (minimumGrowthPercent < 0) ||
+            (minimumGrowthPercent < -100) ||
+            (maximumGrowthPercent > 100) ||
             (maximumGrowthPercent < minimumGrowthPercent)) {
 
             throw new IllegalArgumentException(
-                "Growth percentages must be finite and satisfy 0 <= " +
-                    "minimumGrowthPercent <= maximumGrowthPercent");
+                "Growth percentages must be finite and satisfy -100 <= " +
+                    "minimumGrowthPercent <= maximumGrowthPercent <= 100");
         }
     }
 
