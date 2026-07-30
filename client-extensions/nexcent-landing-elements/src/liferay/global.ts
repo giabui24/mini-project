@@ -7,6 +7,13 @@ export type PortalContext = {
 
 export type LiferayGlobal = {
     authToken?: string;
+    fire?: (eventName: string, payload?: unknown) => void;
+    on?: (
+        eventName: string,
+        listener: (payload: unknown) => void
+    ) => {
+        detach?: () => void;
+    };
     ThemeDisplay?: {
         getLanguageId?: () => string;
         getScopeGroupId?: () => number | string;

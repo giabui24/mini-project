@@ -310,6 +310,24 @@ const LOCAL_OVERRIDES = `
     animation: nxc-react-fade 320ms ease both;
 }
 
+.nxc-modal-trigger-card {
+    appearance: none;
+    background: var(--nxc-color-white, #fff);
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    transition: box-shadow 180ms ease, transform 180ms ease;
+}
+
+.nxc-modal-trigger-card:hover {
+    box-shadow: var(
+        --nxc-shadow-raised,
+        0 8px 24px rgba(38, 50, 56, 0.14)
+    );
+    transform: translateY(-2px);
+}
+
 @keyframes nxc-react-fade {
     from {
         opacity: 0;

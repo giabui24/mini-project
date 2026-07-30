@@ -1,6 +1,7 @@
 import React, {type ReactNode} from 'react';
 import {createRoot, type Root} from 'react-dom/client';
 
+import {GlobalModal} from '../components/GlobalModal/GlobalModal';
 import {StaticClients} from './sections/Clients';
 import {StaticCommunity} from './sections/Community';
 import {StaticCta} from './sections/Cta';
@@ -30,6 +31,7 @@ export const staticElementNames = [
     'nexcent-react-marketing',
     'nexcent-react-cta',
     'nexcent-react-footer',
+    'nexcent-global-modal',
 ] as const;
 
 function registerShadowReactElement(name: string, renderer: StaticRenderer) {
@@ -104,4 +106,5 @@ export function registerStaticElements() {
     registerShadowReactElement('nexcent-react-footer', (element) => (
         <StaticFooter host={element} />
     ));
+    registerShadowReactElement('nexcent-global-modal', () => <GlobalModal />);
 }

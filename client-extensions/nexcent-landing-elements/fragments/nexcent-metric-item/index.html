@@ -1,4 +1,9 @@
-<div class="nxc-metric-item">
+<button
+    aria-haspopup="dialog"
+    class="nxc-metric-item"
+    data-nxc-modal='{"version":1,"slots":{"comparison":{"current":{"read":"text","selector":".nxc-metric-item__value"},"previous":{"read":"text","selector":".nxc-metric-item__previous-value"}},"eyebrow":{"value":"Latest metric"},"facts":[{"label":{"value":"Last updated"},"value":{"read":"text","selector":".nxc-metric-item__snapshot-date"}}],"media":{"read":"image","selector":".nxc-metric-item__icon"},"primaryValue":{"read":"text","selector":".nxc-metric-item__value"},"title":{"read":"text","selector":".nxc-metric-item__label"}}}'
+    type="button"
+>
     <img
         alt="Metric"
         class="nxc-metric-item__icon"
@@ -24,4 +29,23 @@
             Metric
         </p>
     </div>
-</div>
+
+    <span
+        aria-hidden="true"
+        class="nxc-metric-item__modal-data nxc-metric-item__previous-value"
+        data-lfr-editable-id="previousMetricValue"
+        data-lfr-editable-type="text"
+        data-nxc-mapping-label="Previous metric value"
+    >
+        0
+    </span>
+    <span
+        aria-hidden="true"
+        class="nxc-metric-item__modal-data nxc-metric-item__snapshot-date"
+        data-lfr-editable-id="snapshotDate"
+        data-lfr-editable-type="text"
+        data-nxc-mapping-label="Snapshot date"
+    >
+        Not available
+    </span>
+</button>
