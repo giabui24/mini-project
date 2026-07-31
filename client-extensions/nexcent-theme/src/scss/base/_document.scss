@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+html {
+    scroll-padding-top: calc(var(--nxc-header-height) + 1rem);
+}
+
+body,
+button,
+input,
+select,
+textarea {
+    font-family: var(--nxc-font-family);
+}
+
+body {
+    color: var(--nxc-color-text);
+    font-size: var(--nxc-body-size);
+    line-height: 1.42;
+}

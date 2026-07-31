@@ -1,0 +1,80 @@
+components:
+    schemas:
+        ContactRequestInput:
+            properties:
+                captchaAnswer:
+                    type: string
+                captchaToken:
+                    type: string
+                contactDetails:
+                    maxLength: 2000
+                    minLength: 10
+                    type: string
+                emailAddress:
+                    format: email
+                    maxLength: 254
+                    type: string
+                firstName:
+                    maxLength: 50
+                    minLength: 2
+                    type: string
+                lastName:
+                    maxLength: 50
+                    minLength: 2
+                    type: string
+            required:
+                - captchaAnswer
+                - captchaToken
+                - contactDetails
+                - emailAddress
+                - firstName
+                - lastName
+            type: object
+        ContactRequest:
+            properties:
+                contactRequestId:
+                    format: int64
+                    readOnly: true
+                    type: integer
+                createDate:
+                    format: date-time
+                    readOnly: true
+                    type: string
+                status:
+                    readOnly: true
+                    type: string
+            type: object
+info:
+    description: "Submit contact requests to Nexcent."
+    license:
+        name: "Apache 2.0"
+        url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+    title: "Nexcent Contact"
+    version: v1.0
+openapi: 3.0.1
+paths:
+    "/requests":
+        post:
+            operationId: postContactRequest
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ContactRequestInput"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/ContactRequestInput"
+                required: true
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ContactRequest"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/ContactRequest"
+                    description: "The contact request was created."
+                400:
+                    description: "The request body is invalid."
+            tags: ["ContactRequest"]

@@ -17,26 +17,3 @@ export type NavigationItem = {
     target: string;
     url: string;
 };
-
-export type SiteIdentity = {
-    externalReferenceCode: string;
-    homeURL: string;
-    logoURL: string;
-    name: string;
-    siteId: number;
-};
-
-export type SiteShell = {
-    account: AccountContext;
-    companyNavigation: NavigationItem[];
-    headerNavigation: NavigationItem[];
-    site: SiteIdentity;
-    supportNavigation: NavigationItem[];
-    warnings: string[];
-};
-
-export type SiteShellLoadState = {
-    error?: Error;
-    shell: SiteShell;
-    status: 'fallback' | 'loading' | 'ready';
-};

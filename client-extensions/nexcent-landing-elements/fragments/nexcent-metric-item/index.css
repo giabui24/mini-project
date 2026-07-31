@@ -1,0 +1,72 @@
+.nxc-metric-item {
+    align-items: center;
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: var(--nxc-color-text, #717171);
+    cursor: pointer;
+    display: flex;
+    font-family: var(--nxc-font-family, Inter, system-ui, sans-serif);
+    gap: 16px;
+    justify-content: flex-start;
+    min-width: 0;
+    padding: 0;
+    text-align: left;
+    width: 100%;
+}
+
+.nxc-metric-item:focus-visible {
+    outline: 2px solid var(--nxc-color-primary, #4caf4f);
+    outline-offset: 6px;
+}
+
+.nxc-metric-item__icon {
+    flex-shrink: 0;
+    height: 48px;
+    object-fit: contain;
+    width: 48px;
+}
+
+.nxc-metric-item__info {
+    min-width: 0;
+}
+
+.nxc-metric-item__value {
+    color: var(--nxc-color-heading, #4d4d4d);
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.28;
+    margin: 0;
+}
+
+.nxc-metric-item__label {
+    color: var(--nxc-color-text, #717171);
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 4px 0 0;
+}
+
+.nxc-metric-item__modal-data {
+    display: none;
+}
+
+.nxc-metric-item-fragment--edit .nxc-metric-item {
+    flex-wrap: wrap;
+}
+
+.nxc-metric-item-fragment--edit .nxc-metric-item__modal-data {
+    background: var(--nxc-color-surface, #f5f7fa);
+    border: 1px dashed var(--nxc-color-border, #abbed1);
+    border-radius: 6px;
+    color: var(--nxc-color-heading, #4d4d4d);
+    display: block;
+    flex: 0 0 100%;
+    font-size: 0.875rem;
+    padding: 8px 10px;
+}
+
+.nxc-metric-item-fragment--edit .nxc-metric-item__modal-data::before {
+    color: var(--nxc-color-muted, #89939e);
+    content: attr(data-nxc-mapping-label) ": ";
+    font-weight: 600;
+}

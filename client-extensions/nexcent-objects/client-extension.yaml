@@ -1,0 +1,17 @@
+assemble:
+    - from: batch
+      into: batch
+
+nexcent-objects:
+    name: Nexcent Objects
+    oAuthApplicationHeadlessServer: nexcent-objects-oauth
+    type: batch
+
+nexcent-objects-oauth:
+    .serviceAddress: localhost:8080
+    .serviceScheme: http
+    name: Nexcent Objects OAuth
+    scopes:
+        - Liferay.Headless.Batch.Engine.everything
+        - Liferay.Object.Admin.REST.everything
+    type: oAuthApplicationHeadlessServer

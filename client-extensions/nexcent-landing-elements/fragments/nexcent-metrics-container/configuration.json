@@ -1,0 +1,30 @@
+{
+    "fieldSets": [
+        {
+            "fields": [
+                {
+                    "dataType": "string",
+                    "defaultValue": "Helping a local",
+                    "label": "Title",
+                    "name": "title",
+                    "type": "text"
+                },
+                {
+                    "dataType": "string",
+                    "defaultValue": "business reinvent itself",
+                    "label": "Highlighted text",
+                    "name": "highlight",
+                    "type": "text"
+                },
+                {
+                    "dataType": "string",
+                    "defaultValue": "We reached here with our hard work and dedication",
+                    "label": "Description",
+                    "name": "description",
+                    "type": "text"
+                }
+            ],
+            "label": "Section"
+        }
+    ]
+}

@@ -1,21 +1,20 @@
 import React, {type ReactNode} from 'react';
 import {createRoot, type Root} from 'react-dom/client';
 
-import {
-    StaticClients,
-    StaticCommunity,
-    StaticCta,
-    StaticFeature,
-    StaticMarketing,
-    StaticStatistics,
-    StaticTestimonial,
-} from './components/ContentSections';
-import {StaticFooter} from './components/Footer';
-import {StaticHeader} from './components/Header';
-import {StaticHero} from './components/Hero';
+import {GlobalModal} from '../components/GlobalModal/GlobalModal';
+import {StaticClients} from './sections/Clients';
+import {StaticCommunity} from './sections/Community';
+import {StaticCta} from './sections/Cta';
+import {StaticFeature} from './sections/Feature';
+import {StaticHero} from './sections/Hero';
+import {StaticMarketing} from './sections/Marketing';
+import {StaticStatistics} from './sections/Statistics';
+import {StaticTestimonial} from './sections/Testimonial';
+import {StaticFooter} from './shell/Footer';
+import {StaticHeader} from './shell/Header';
 import {StaticPage} from './StaticPage';
-import {StaticRuntimeOverrides} from './StaticRuntimeOverrides';
-import {StaticStyleBoundary} from './StaticStyleBoundary';
+import {StaticRuntimeOverrides} from './shell/StaticRuntimeOverrides';
+import {StaticStyleBoundary} from './shell/StaticStyleBoundary';
 
 type StaticRenderer = (element: HTMLElement) => ReactNode;
 
@@ -32,6 +31,7 @@ export const staticElementNames = [
     'nexcent-react-marketing',
     'nexcent-react-cta',
     'nexcent-react-footer',
+    'nexcent-global-modal',
 ] as const;
 
 function registerShadowReactElement(name: string, renderer: StaticRenderer) {
@@ -106,4 +106,5 @@ export function registerStaticElements() {
     registerShadowReactElement('nexcent-react-footer', (element) => (
         <StaticFooter host={element} />
     ));
+    registerShadowReactElement('nexcent-global-modal', () => <GlobalModal />);
 }

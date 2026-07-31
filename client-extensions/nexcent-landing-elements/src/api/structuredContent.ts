@@ -23,12 +23,14 @@ export type ImageValue = {
 
 export type ContentFieldValue = {
     data?: unknown;
+    description?: string;
     document?: ImageValue;
     image?: ImageValue;
 };
 
 export type ContentField = {
     contentFieldValue?: ContentFieldValue;
+    fieldReference?: string;
     name: string;
     nestedContentFields?: ContentField[];
 };
@@ -36,6 +38,7 @@ export type ContentField = {
 export type StructuredContent = {
     contentFields: ContentField[];
     contentStructureId: number;
+    coverImage?: ContentFieldValue;
     datePublished?: string;
     externalReferenceCode: string;
     friendlyUrlPath?: string;
@@ -131,72 +134,3 @@ export function clearStructuredContentRequestCache(): void {
     requestCache.clear();
 }
 
-export function flattenContentFields(
-    fields: ContentField[]
-): Map<string, ContentFieldValue> {
-    const result = new Map<string, ContentFieldValue>();
-
-    const visit = (items: ContentField[]) => {
-        for (const field of items) {
-            if (field.contentFieldValue) {
-                result.set(field.name, field.contentFieldValue);
-            }
-
-            if (field.nestedContentFields?.length) {
-                visit(field.nestedContentFields);
-            }
-        }
-    };
-
-    visit(fields);
-
-    return result;
-}
-
-export function readText(
-    fields: Map<string, ContentFieldValue>,
-    name: string,
-    fallback = ''
-): string {
-    const value = fields.get(name)?.data;
-
-    return typeof value === 'string' ? value : fallback;
-}
-
-export function readNumber(
-    fields: Map<string, ContentFieldValue>,
-    name: string,
-    fallback = 0
-): number {
-    const value = fields.get(name)?.data;
-    const numberValue = typeof value === 'number' ? value : Number(value);
-
-    return Number.isFinite(numberValue) ? numberValue : fallback;
-}
-
-export function readBoolean(
-    fields: Map<string, ContentFieldValue>,
-    name: string,
-    fallback = false
-): boolean {
-    const value = fields.get(name)?.data;
-
-    if (typeof value === 'boolean') {
-        return value;
-    }
-
-    if (typeof value === 'string') {
-        return value.toLowerCase() === 'true';
-    }
-
-    return fallback;
-}
-
-export function readImage(
-    fields: Map<string, ContentFieldValue>,
-    name: string
-): ImageValue | undefined {
-    const value = fields.get(name);
-
-    return value?.image ?? value?.document;
-}

@@ -1,8 +1,6 @@
 assemble:
     - from: assets
       into: static
-    - from: ../nexcent-landing-elements/build/style.css
-      into: static
 
 nexcent-theme-css:
     clayURL: css/clay.css
@@ -15,7 +13,7 @@ nexcent-global-css:
     name: Nexcent Global CSS
     scope: layout
     type: globalCSS
-    url: global-entry.css
+    url: global.css
 
 nexcent-global-js:
     name: Nexcent Global JavaScript
