@@ -4,6 +4,7 @@ import {
     useCallback,
     useEffect,
     useId,
+    useRef,
     useState,
 } from 'react';
 
@@ -128,16 +129,20 @@ export function ContactForm({
         'error' | 'idle' | 'submitting' | 'success'
     >('idle');
     const [values, setValues] = useState<ContactFormValues>(INITIAL_VALUES);
+    const captchaRequestId = useRef(0);
 
     const loadCaptcha = useCallback(async () => {
+        const requestId = ++captchaRequestId.current;
+
         setIsCaptchaLoading(true);
         setCaptchaAnswer('');
         setCaptchaError('');
 
         try {
             const response = await fetch(
-                '/o/captcha/v1.0/captcha/challenge',
+                `/o/captcha/v1.0/captcha/challenge?_=${Date.now()}`,
                 {
+                    cache: 'no-store',
                     credentials: 'same-origin',
                     headers: {Accept: 'application/json'},
                 }
@@ -155,9 +160,15 @@ export function ContactForm({
                 throw new Error('CAPTCHA challenge is incomplete.');
             }
 
-            setCaptchaChallenge(challenge);
+            if (requestId === captchaRequestId.current) {
+                setCaptchaChallenge(challenge);
+            }
         }
         catch (cause) {
+            if (requestId !== captchaRequestId.current) {
+                return;
+            }
+
             console.warn('[Nexcent Contact Form CAPTCHA]', cause);
             setCaptchaChallenge(null);
             setCaptchaError(
@@ -165,7 +176,9 @@ export function ContactForm({
             );
         }
         finally {
-            setIsCaptchaLoading(false);
+            if (requestId === captchaRequestId.current) {
+                setIsCaptchaLoading(false);
+            }
         }
     }, []);
 
@@ -220,6 +233,9 @@ export function ContactForm({
             return;
         }
 
+        const submittedCaptcha = captchaChallenge;
+
+        setCaptchaChallenge(null);
         setStatus('submitting');
 
         const authToken = (window as LiferayWindow).Liferay?.authToken;
@@ -229,7 +245,7 @@ export function ContactForm({
                 body: JSON.stringify({
                     contactDetails: values.contactDetails.trim(),
                     captchaAnswer: captchaAnswer.trim(),
-                    captchaToken: captchaChallenge.token,
+                    captchaToken: submittedCaptcha.token,
                     emailAddress: values.emailAddress.trim(),
                     firstName: values.firstName.trim(),
                     lastName: values.lastName.trim(),
