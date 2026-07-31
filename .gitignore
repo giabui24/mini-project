@@ -26,4 +26,5 @@
 /plugins-sdk/dist
 /plugins-sdk/lib
 test-results
+.env
 client-extensions/nexcent-landing-elements/fragments/**/index.scss
